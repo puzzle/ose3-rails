@@ -23,7 +23,8 @@ RUN /bin/bash -c "gem install passenger --no-ri --no-rdoc && \
 
 ADD /contrib/bin $STI_SCRIPTS_PATH
 
-ADD . /contrib/
+ADD . /tmp/src
+ADD /contrib/
 
 # disable digest_module
 RUN sed -i "s/LoadModule auth_digest_module/#LoadModule auth_digest_module/" /etc/httpd/conf.modules.d/00-base.conf
