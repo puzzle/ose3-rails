@@ -21,11 +21,7 @@ RUN /bin/bash -c "gem install passenger --no-ri --no-rdoc && \
     passenger-install-apache2-module --auto --languages ruby && \
     passenger-config validate-install " # bogus comment to invalidate cache
 
-ADD config/docker/bin $STI_SCRIPTS_PATH
-
 ADD . /contrib/
-ADD config/docker/httpd /etc/httpd
-ADD config/docker/lib /usr/local/lib
 
 # disable digest_module
 RUN sed -i "s/LoadModule auth_digest_module/#LoadModule auth_digest_module/" /etc/httpd/conf.modules.d/00-base.conf
