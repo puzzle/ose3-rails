@@ -1,4 +1,4 @@
-FROM sclorg/s2i-ruby-container
+FROM centos/ruby-22-centos7
 
 USER root
 
