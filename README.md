@@ -9,5 +9,13 @@ if you want to set up your work as a service, get the OpenshiftCLI first:
 on linux:
 https://master.appuio-beta.ch/console/extensions/clients/linux/oc
 
-got to the git repository you have and want to deploy and write:
+log into the location you wante the service
+`oc login path/to/your/openshift3-location`
+
+Possible locations:
+https://victory.rz.puzzle.ch:8443
+https://ose3-master.puzzle.ch:8443
+
+go to the git repository you have and want to deploy and write:
 `oc new-app .`
+
