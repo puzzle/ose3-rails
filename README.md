@@ -12,3 +12,5 @@ log into the location you wante the service
 
 go to the git repository you have and want to deploy and write:
 `oc new-app .`
+
+for proper use with ruby, we are using apache and passenger 
