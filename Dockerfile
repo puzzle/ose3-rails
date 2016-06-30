@@ -23,7 +23,7 @@ RUN /bin/bash -c "gem install passenger --no-ri --no-rdoc && \
 
 ADD /contrib/bin $STI_SCRIPTS_PATH
 
-ADD . /tmp/src
+ONBUILD ADD . /tmp/src
 ADD /contrib/bin $STI_SCRIPTS_PATH
 ADD /contrib/etc/httpd /etc/httpd
 ADD /contrib/usr/local/lib /usr/local/lib
