@@ -43,7 +43,7 @@ RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
 
 USER 1001
 
-RUN $STI_SCRIPTS_PATH/assemble
+ONBUILD RUN $STI_SCRIPTS_PATH/assemble
 
 ENV APACHE_RUN_USER 1001
 ENV APACHE_PID_FILE /opt/app-root/httpd.pid
