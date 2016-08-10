@@ -41,6 +41,8 @@ RUN chgrp -R 0 ./ && \
 RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
     chmod +x $STI_SCRIPTS_PATH/run-httpd.sh
 
+RUN ln -s /opt/rh/rh-ruby22/root/usr/local/share/gems/gems/passenger-5.* /opt/passenger
+
 USER 1001
 
 ONBUILD RUN $STI_SCRIPTS_PATH/assemble
