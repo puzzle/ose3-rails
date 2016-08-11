@@ -26,6 +26,7 @@ ADD /contrib/bin $STI_SCRIPTS_PATH
 ONBUILD USER root
 ONBUILD ADD . /tmp/src
 ONBUILD RUN chown -R 1001 /tmp/src
+ONBUILD USER 1001
 
 ADD /contrib/bin $STI_SCRIPTS_PATH
 ADD /contrib/etc/httpd /etc/httpd
