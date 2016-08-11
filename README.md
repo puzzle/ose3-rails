@@ -1,11 +1,38 @@
 # ose3-rails
 
-Openshift-dockerimage for Ruby on Rails applications with Apache 2 and mod_passenger.
+Openshift-dockerimage for Ruby on Rails applications with Apache2 and mod_passenger.
 
-this image is based on centos/ruby-22-centos7: https://github.com/sclorg/s2i-ruby-container/tree/master/2.2
+This image is based on centos/ruby-22-centos7: https://github.com/sclorg/s2i-ruby-container/tree/master/2.2
 
-To use it you simply have to create a Dockerfile in the wanted project and write the following line in it:
+## Preparations
+
+Create an OpenShift project and apply the JSON template to it:
+
+```
+oc new-project <PROJECT-NAME>
+oc process -f template_pitc-rails-bi.json | oc create -n <PROJECT-NAME> -f -
+```
+
+This will create all necessary resources and policyBindings in order for other projects to use its built images. It will also automatically start building the image, which can then be referenced by your other projects that want to use it.
+
+
+## Usage
+
+To use this generic image you simply have to create a Dockerfile in the wanted project and write the following line into it:
 
 `FROM puzzle/ose3-rails`
 
+and then reference the image in your BuildConfig spec:
 
+```
+spec:
+...
+  strategy:
+    type: Docker
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: <PROJECT-NAME>
+        name: 'ose3-rails:latest'
+      forcePull: true
+```

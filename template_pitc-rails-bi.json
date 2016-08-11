@@ -1,0 +1,142 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "pitc-rails-bi",
+        "creationTimestamp": null
+    },
+    "objects": [
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "ose3-rails",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "ose3-rails"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "GitHub",
+                        "github": {
+                            "secret": "cQY1ed5ptTLmuXcaqWur"
+                        }
+                    },
+                    {
+                        "type": "Generic",
+                        "generic": {
+                            "secret": "D4NtIIlGRh83eoae7zHF"
+                        }
+                    },
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    }
+                ],
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/puzzle/ose3-rails"
+                    },
+                    "secrets": []
+                },
+                "strategy": {
+                    "type": "Docker",
+                    "dockerStrategy": {}
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "ose3-rails:latest"
+                    }
+                },
+                "resources": {},
+                "postCommit": {}
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "ose3-rails",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "ose3-rails"
+                }
+            },
+            "spec": {},
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "ruby-22-centos7",
+                "generation": 2,
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "ose3-rails"
+                }
+            },
+            "spec": {},
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+        {
+            "kind": "PolicyBinding",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "openshift:default",
+                "creationTimestamp": null
+            },
+            "lastModified": "2016-03-29T09:19:12Z",
+            "policyRef": {
+                "namespace": "openshift",
+                "name": "default"
+            },
+            "roleBindings": [
+                {
+                    "name": "shared-resource-viewers",
+                    "roleBinding": {
+                        "metadata": {
+                            "name": "shared-resource-viewers",
+                            "namespace": "openshift",
+                            "uid": "4d051a27-f58f-11e5-aaac-001a4a026f33",
+                            "resourceVersion": "64",
+                            "creationTimestamp": "2016-03-29T09:19:12Z"
+                        },
+                        "userNames": null,
+                        "groupNames": [
+                            "system:authenticated"
+                        ],
+                        "subjects": [
+                            {
+                                "kind": "SystemGroup",
+                                "name": "system:authenticated"
+                            }
+                        ],
+                        "roleRef": {
+                            "namespace": "openshift",
+                            "name": "shared-resource-viewer"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
