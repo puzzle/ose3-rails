@@ -6,11 +6,15 @@ This image is based on centos/ruby-22-centos7: https://github.com/sclorg/s2i-rub
 
 ## Preparations
 
+Go to the project root. Decide which project name to use
+
+project=<PROJECT-NAME>
+
 Create an OpenShift project and apply the JSON template to it:
 
 ```
-oc new-project <PROJECT-NAME>
-oc process -f template_pitc-rails-bi.json | oc create -n <PROJECT-NAME> -f -
+oc new-project $project
+oc process -f ose3_project_templates/build_base_image.json | oc create -n $project -f -
 ```
 
 This will create all necessary resources and policyBindings in order for other projects to use its built images. It will also automatically start building the image, which can then be referenced by your other projects that want to use it.

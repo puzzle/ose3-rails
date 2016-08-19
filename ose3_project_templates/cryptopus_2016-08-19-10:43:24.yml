@@ -1,0 +1,2065 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: cryptopus
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ose3-rails
+    name: ose3-rails
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ose3-rails:latest
+    resources: {}
+    source:
+      git:
+        uri: https://github.com/puzzle/ose3-rails.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: ruby-22-centos7:latest
+      type: Docker
+    triggers:
+    - github:
+        secret: sqDwyKrK3jz9Kr0YIhDX
+      type: GitHub
+    - generic:
+        secret: t7qNL0UzxC-8fcyXvyl4
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: Puzzle ITC
+    creationTimestamp: null
+    labels:
+      app: rails
+    name: rails
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: rails:latest
+    resources: {}
+    source:
+      git:
+        ref: master
+        uri: https://github.com/puzzle/cryptopus.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        forcePull: true
+        from:
+          kind: ImageStreamTag
+          name: ose3-rails:latest
+          namespace: pitc-rails-bi
+      type: Docker
+    triggers:
+    - github:
+        secret: place-secret
+      type: GitHub
+    - generic:
+        secret: place-secret
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: ose3-rails
+      openshift.io/build.number: "1"
+      openshift.io/build.pod-name: ose3-rails-1-build
+    creationTimestamp: null
+    labels:
+      app: ose3-rails
+      buildconfig: ose3-rails
+      openshift.io/build-config.name: ose3-rails
+    name: ose3-rails-1
+  spec:
+    output:
+      pushSecret:
+        name: builder-dockercfg-hjqun
+      to:
+        kind: ImageStreamTag
+        name: ose3-rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: ps@s-it.ch
+          name: pascal simon
+        commit: 34713bfbee0879766bd3839b9b455c819062a8d5
+        committer:
+          email: ps@s-it.ch
+          name: pascal simon
+        message: fix /tmp/src file permissions
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        uri: https://github.com/puzzle/ose3-rails.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360
+      type: Docker
+  status:
+    config:
+      name: ose3-rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/ose3-rails:latest
+    phase: New
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: ose3-rails
+      openshift.io/build.number: "2"
+      openshift.io/build.pod-name: ose3-rails-2-build
+    creationTimestamp: null
+    labels:
+      app: ose3-rails
+      buildconfig: ose3-rails
+      openshift.io/build-config.name: ose3-rails
+    name: ose3-rails-2
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ose3-rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: github-owner@puzzle.ch
+          name: puzzleitc
+        commit: 2aea5dfb556f47f0c0e9e7a5300a7514910f42d2
+        committer:
+          email: noreply@github.com
+          name: GitHub
+        message: 'Merge pull request #1 from bliemli/master'
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        uri: https://github.com/puzzle/ose3-rails.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360
+      type: Docker
+  status:
+    config:
+      name: ose3-rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/ose3-rails:latest
+    phase: New
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: ose3-rails
+      openshift.io/build.number: "3"
+      openshift.io/build.pod-name: ose3-rails-3-build
+    creationTimestamp: null
+    labels:
+      app: ose3-rails
+      buildconfig: ose3-rails
+      openshift.io/build-config.name: ose3-rails
+    name: ose3-rails-3
+  spec:
+    output:
+      pushSecret:
+        name: builder-dockercfg-hjqun
+      to:
+        kind: ImageStreamTag
+        name: ose3-rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: github-owner@puzzle.ch
+          name: puzzleitc
+        commit: 2aea5dfb556f47f0c0e9e7a5300a7514910f42d2
+        committer:
+          email: noreply@github.com
+          name: GitHub
+        message: 'Merge pull request #1 from bliemli/master'
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        uri: https://github.com/puzzle/ose3-rails.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360
+      type: Docker
+  status:
+    config:
+      name: ose3-rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/ose3-rails:latest
+    phase: New
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: rails
+      openshift.io/build.number: "13"
+      openshift.io/build.pod-name: rails-13-build
+    creationTimestamp: null
+    labels:
+      app: rails
+      buildconfig: rails
+      openshift.io/build-config.name: rails
+    name: rails-13
+  spec:
+    output:
+      pushSecret:
+        name: builder-dockercfg-hjqun
+      to:
+        kind: ImageStreamTag
+        name: rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: ps@s-it.ch
+          name: pascal simon
+        commit: 5bdd5664fe345891ec7b59d8a07f616dfbbf164f
+        committer:
+          email: ps@s-it.ch
+          name: pascal simon
+        message: use puzzle ose3 docker base image
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        ref: master
+        uri: https://github.com/puzzle/cryptopus.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360
+      type: Docker
+  status:
+    config:
+      name: rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/rails:latest
+    phase: New
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: rails
+      openshift.io/build.number: "14"
+      openshift.io/build.pod-name: rails-14-build
+    creationTimestamp: null
+    labels:
+      app: rails
+      buildconfig: rails
+      openshift.io/build-config.name: rails
+    name: rails-14
+  spec:
+    output:
+      pushSecret:
+        name: builder-dockercfg-hjqun
+      to:
+        kind: ImageStreamTag
+        name: rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: ps@s-it.ch
+          name: pascal simon
+        commit: 5bdd5664fe345891ec7b59d8a07f616dfbbf164f
+        committer:
+          email: ps@s-it.ch
+          name: pascal simon
+        message: use puzzle ose3 docker base image
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        ref: master
+        uri: https://github.com/puzzle/cryptopus.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360
+      type: Docker
+  status:
+    config:
+      name: rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/rails:latest
+    phase: New
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: rails
+      openshift.io/build.number: "15"
+      openshift.io/build.pod-name: rails-15-build
+    creationTimestamp: null
+    labels:
+      app: rails
+      buildconfig: rails
+      openshift.io/build-config.name: rails
+    name: rails-15
+  spec:
+    output:
+      pushSecret:
+        name: builder-dockercfg-hjqun
+      to:
+        kind: ImageStreamTag
+        name: rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: ps@s-it.ch
+          name: pascal simon
+        commit: 5bdd5664fe345891ec7b59d8a07f616dfbbf164f
+        committer:
+          email: ps@s-it.ch
+          name: pascal simon
+        message: use puzzle ose3 docker base image
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        ref: master
+        uri: https://github.com/puzzle/cryptopus.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360
+      type: Docker
+  status:
+    config:
+      name: rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/rails:latest
+    phase: New
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: rails
+      openshift.io/build.number: "16"
+      openshift.io/build.pod-name: rails-16-build
+    creationTimestamp: null
+    labels:
+      app: rails
+      buildconfig: rails
+      openshift.io/build-config.name: rails
+    name: rails-16
+  spec:
+    output:
+      pushSecret:
+        name: builder-dockercfg-hjqun
+      to:
+        kind: ImageStreamTag
+        name: rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: ps@s-it.ch
+          name: pascal simon
+        commit: 5bdd5664fe345891ec7b59d8a07f616dfbbf164f
+        committer:
+          email: ps@s-it.ch
+          name: pascal simon
+        message: use puzzle ose3 docker base image
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        ref: master
+        uri: https://github.com/puzzle/cryptopus.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        forcePull: true
+        from:
+          kind: DockerImage
+          name: openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360
+      type: Docker
+  status:
+    config:
+      name: rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/rails:latest
+    phase: New
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: rails
+      openshift.io/build.number: "19"
+      openshift.io/build.pod-name: rails-19-build
+    creationTimestamp: null
+    labels:
+      app: rails
+      buildconfig: rails
+      openshift.io/build-config.name: rails
+    name: rails-19
+  spec:
+    output:
+      pushSecret:
+        name: builder-dockercfg-hjqun
+      to:
+        kind: ImageStreamTag
+        name: rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: ps@s-it.ch
+          name: pascal simon
+        commit: 5bdd5664fe345891ec7b59d8a07f616dfbbf164f
+        committer:
+          email: ps@s-it.ch
+          name: pascal simon
+        message: use puzzle ose3 docker base image
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        ref: master
+        uri: https://github.com/puzzle/cryptopus.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        forcePull: true
+        from:
+          kind: DockerImage
+          name: docker.io/puzzle/ose3-rails@sha256:c1d3595f276e243462c4df0f12cc1abcb46a0b5a842c41355eedd84b36df0870
+      type: Docker
+  status:
+    config:
+      name: rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/rails:latest
+    phase: New
+- apiVersion: v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: rails
+      openshift.io/build.number: "20"
+      openshift.io/build.pod-name: rails-20-build
+    creationTimestamp: null
+    labels:
+      app: rails
+      buildconfig: rails
+      openshift.io/build-config.name: rails
+    name: rails-20
+  spec:
+    output:
+      pushSecret:
+        name: builder-dockercfg-hjqun
+      to:
+        kind: ImageStreamTag
+        name: rails:latest
+    resources: {}
+    revision:
+      git:
+        author:
+          email: ps@s-it.ch
+          name: pascal simon
+        commit: 5bdd5664fe345891ec7b59d8a07f616dfbbf164f
+        committer:
+          email: ps@s-it.ch
+          name: pascal simon
+        message: use puzzle ose3 docker base image
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        ref: master
+        uri: https://github.com/puzzle/cryptopus.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        forcePull: true
+        from:
+          kind: DockerImage
+          name: 172.30.1.1:5000/ose3-rails/ose3-rails@sha256:32dae0e163a810aa4d58e68118460925948e4f0eb5f3a2e3d7ffc4f1bda74861
+        pullSecret:
+          name: builder-dockercfg-hjqun
+      type: Docker
+  status:
+    config:
+      name: rails
+    outputDockerImageReference: 172.30.1.1:5000/cryptopus/rails:latest
+    phase: New
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: ose3-rails
+    name: ose3-rails
+  spec:
+    tags:
+    - from:
+        kind: DockerImage
+        name: 172.30.1.1:5000/cryptopus/ose3-rails:latest
+      name: latest
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: Puzzle ITC
+      openshift.io/image.dockerRepositoryCheck: 2016-08-19T08:00:13Z
+    creationTimestamp: null
+    generation: 4
+    labels:
+      app: rails
+    name: rails
+  spec:
+    tags:
+    - from:
+        kind: DockerImage
+        name: 172.30.1.1:5000/cryptopus/rails:latest
+      name: latest
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: Puzzle ITC
+      openshift.io/image.dockerRepositoryCheck: 2016-07-29T09:49:57Z
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app: rails
+    name: ruby-22-centos7
+  spec:
+    dockerImageRepository: openshift/ruby-22-centos7
+    tags:
+    - from:
+        kind: DockerImage
+        name: openshift/ruby-22-centos7
+      name: latest
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: rails
+      template: mysql-persistent-template
+    name: mysql
+  spec:
+    replicas: 1
+    selector:
+      name: mysql
+    strategy:
+      recreateParams: {}
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          name: mysql
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_USER
+            value: arqqYdH8GMwjwpVN
+          - name: MYSQL_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: MYSQL_DATABASE
+            value: cryptopus_production
+          image: registry.access.redhat.com/rhscl/mysql-56-rhel7:latest
+          imagePullPolicy: IfNotPresent
+          name: mysql
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities: {}
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/mysql/data
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysqlpvc
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - mysql
+        from:
+          kind: ImageStreamTag
+          name: mysql:latest
+          namespace: openshift
+      type: ImageChange
+    - type: ConfigChange
+  status: {}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: Puzzle ITC
+    creationTimestamp: null
+    labels:
+      app: rails
+    name: rails
+  spec:
+    replicas: 1
+    selector:
+      app: rails
+      deploymentconfig: rails
+    strategy:
+      recreateParams:
+        pre:
+          execNewPod:
+            command:
+            - /usr/bin/bash
+            - -c
+            - bundle exec rake db:migrate
+            containerName: rails
+          failurePolicy: Abort
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deploymentconfig: rails
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY_BASE
+            value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+          - name: RAILS_ENV
+            value: production
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "1"
+          - name: RAILS_DB_NAME
+            value: cryptopus_production
+          - name: RAILS_DB_HOST
+            value: mysql.cryptopus.svc.cluster.local
+          - name: RAILS_DB_USERNAME
+            value: arqqYdH8GMwjwpVN
+          - name: RAILS_DB_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: RAILS_DB_ADAPTER
+            value: mysql2
+          - name: RAILS_HOST_NAME
+            value: cryptopus.ose3.puzzle.ch
+          - name: RAILS_AIRBRAKE_HOST
+            value: errbit.puzzle.ch
+          - name: RAILS_AIRBRAKE_API_KEY
+            value: 804b69080121a8d06cbe7b493fa6ca0d
+          image: 172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0
+          imagePullPolicy: Always
+          name: rails
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - rails
+        from:
+          kind: ImageStreamTag
+          name: rails:latest
+      type: ImageChange
+  status: {}
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.name: mysql-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: mysql
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"mysql","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/deploymentconfigs/mysql","uid":"c676df1e-5571-11e6-9028-001a4a026f33","resourceVersion":"8731852","creationTimestamp":"2016-07-29T09:49:43Z","labels":{"app":"rails","template":"mysql-persistent-template"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600},"resources":{}},"triggers":[{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["mysql"],"from":{"kind":"ImageStreamTag","namespace":"openshift","name":"mysql:latest"}}},{"type":"ConfigChange"}],"replicas":1,"test":false,"selector":{"name":"mysql"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rails","name":"mysql"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"mysql-data","persistentVolumeClaim":{"claimName":"mysqlpvc"}}],"containers":[{"name":"mysql","image":"registry.access.redhat.com/rhscl/mysql-56-rhel7:latest","ports":[{"containerPort":3306,"protocol":"TCP"}],"env":[{"name":"MYSQL_USER","value":"arqqYdH8GMwjwpVN"},{"name":"MYSQL_PASSWORD","value":"7jSANDSlx4fLXC2i"},{"name":"MYSQL_DATABASE","value":"cryptopus_production"}],"resources":{},"volumeMounts":[{"name":"mysql-data","mountPath":"/var/lib/mysql/data"}],"terminationMessagePath":"/dev/termination-log","imagePullPolicy":"IfNotPresent","securityContext":{"capabilities":{},"privileged":false}}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{}}}},"status":{"latestVersion":1,"details":{"causes":[{"type":"ConfigChange"}]}}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: rails
+      openshift.io/deployment-config.name: mysql
+      template: mysql-persistent-template
+    name: mysql-1
+  spec:
+    replicas: 1
+    selector:
+      deployment: mysql-1
+      deploymentconfig: mysql
+      name: mysql
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: mysql
+          openshift.io/deployment.name: mysql-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deployment: mysql-1
+          deploymentconfig: mysql
+          name: mysql
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_USER
+            value: arqqYdH8GMwjwpVN
+          - name: MYSQL_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: MYSQL_DATABASE
+            value: cryptopus_production
+          image: registry.access.redhat.com/rhscl/mysql-56-rhel7:latest
+          imagePullPolicy: IfNotPresent
+          name: mysql
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          securityContext:
+            capabilities: {}
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/mysql/data
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysqlpvc
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.name: rails-10-deploy
+      openshift.io/deployment-config.latest-version: "10"
+      openshift.io/deployment-config.name: rails
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "0"
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"rails","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/deploymentconfigs/rails","uid":"c6815fc7-5571-11e6-9028-001a4a026f33","resourceVersion":"9441087","creationTimestamp":"2016-07-29T09:49:43Z","labels":{"app":"rails"},"annotations":{"openshift.io/generated-by":"Puzzle ITC"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600,"pre":{"failurePolicy":"Abort","execNewPod":{"command":["/usr/bin/bash","-c","bundle exec rake db:migrate"],"containerName":"rails"}}},"resources":{}},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["rails"],"from":{"kind":"ImageStreamTag","name":"rails:latest"},"lastTriggeredImage":"172.30.1.1:5000/cryptopus/rails@sha256:5d6640fbd488c1b379e2a7821778bfd12cab225a42ee9f6945e9003d3274b4c7"}}],"replicas":1,"test":false,"selector":{"app":"rails","deploymentconfig":"rails"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rails","deploymentconfig":"rails"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"rails","image":"172.30.1.1:5000/cryptopus/rails@sha256:5d6640fbd488c1b379e2a7821778bfd12cab225a42ee9f6945e9003d3274b4c7","ports":[{"containerPort":8080,"protocol":"TCP"}],"env":[{"name":"SECRET_KEY_BASE","value":"KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM"},{"name":"RAILS_ENV","value":"production"},{"name":"RAILS_SERVE_STATIC_FILES","value":"1"},{"name":"RAILS_DB_NAME","value":"cryptopus_production"},{"name":"RAILS_DB_HOST","value":"mysql.cryptopus.svc.cluster.local"},{"name":"RAILS_DB_USERNAME","value":"arqqYdH8GMwjwpVN"},{"name":"RAILS_DB_PASSWORD","value":"7jSANDSlx4fLXC2i"},{"name":"RAILS_DB_ADAPTER","value":"mysql2"},{"name":"RAILS_HOST_NAME","value":"cryptopus.ose3-test.puzzle.ch"},{"name":"RAILS_AIRBRAKE_HOST","value":"errbit.puzzle.ch"},{"name":"RAILS_AIRBRAKE_API_KEY","value":"804b69080121a8d06cbe7b493fa6ca0d"}],"resources":{},"terminationMessagePath":"/dev/termination-log","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{}}}},"status":{"latestVersion":10,"details":{"causes":[{"type":"ImageChange","imageTrigger":{"from":{"kind":"ImageStreamTag","name":"rails:latest"}}}]}}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: rails
+      openshift.io/deployment-config.name: rails
+    name: rails-10
+  spec:
+    replicas: 0
+    selector:
+      app: rails
+      deployment: rails-10
+      deploymentconfig: rails
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "10"
+          openshift.io/deployment-config.name: rails
+          openshift.io/deployment.name: rails-10
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deployment: rails-10
+          deploymentconfig: rails
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY_BASE
+            value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+          - name: RAILS_ENV
+            value: production
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "1"
+          - name: RAILS_DB_NAME
+            value: cryptopus_production
+          - name: RAILS_DB_HOST
+            value: mysql.cryptopus.svc.cluster.local
+          - name: RAILS_DB_USERNAME
+            value: arqqYdH8GMwjwpVN
+          - name: RAILS_DB_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: RAILS_DB_ADAPTER
+            value: mysql2
+          - name: RAILS_HOST_NAME
+            value: cryptopus.ose3-test.puzzle.ch
+          - name: RAILS_AIRBRAKE_HOST
+            value: errbit.puzzle.ch
+          - name: RAILS_AIRBRAKE_API_KEY
+            value: 804b69080121a8d06cbe7b493fa6ca0d
+          image: 172.30.1.1:5000/cryptopus/rails@sha256:5d6640fbd488c1b379e2a7821778bfd12cab225a42ee9f6945e9003d3274b4c7
+          imagePullPolicy: Always
+          name: rails
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      openshift.io/deployer-pod.name: rails-17-deploy
+      openshift.io/deployment-config.latest-version: "17"
+      openshift.io/deployment-config.name: rails
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"rails","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/deploymentconfigs/rails","uid":"c6815fc7-5571-11e6-9028-001a4a026f33","resourceVersion":"9486457","creationTimestamp":"2016-07-29T09:49:43Z","labels":{"app":"rails"},"annotations":{"openshift.io/generated-by":"Puzzle ITC"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600,"pre":{"failurePolicy":"Abort","execNewPod":{"command":["/usr/bin/bash","-c","bundle exec rake db:migrate"],"containerName":"rails"}}},"resources":{}},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["rails"],"from":{"kind":"ImageStreamTag","name":"rails:latest"},"lastTriggeredImage":"172.30.1.1:5000/cryptopus/rails@sha256:87f6b4deb685abb87497c9ba268ba9f4b4e7862cb352fbe35c6a099fa6a1eb20"}}],"replicas":1,"test":false,"selector":{"app":"rails","deploymentconfig":"rails"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rails","deploymentconfig":"rails"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"rails","image":"172.30.1.1:5000/cryptopus/rails@sha256:87f6b4deb685abb87497c9ba268ba9f4b4e7862cb352fbe35c6a099fa6a1eb20","ports":[{"containerPort":8080,"protocol":"TCP"}],"env":[{"name":"SECRET_KEY_BASE","value":"KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM"},{"name":"RAILS_ENV","value":"production"},{"name":"RAILS_SERVE_STATIC_FILES","value":"1"},{"name":"RAILS_DB_NAME","value":"cryptopus_production"},{"name":"RAILS_DB_HOST","value":"mysql.cryptopus.svc.cluster.local"},{"name":"RAILS_DB_USERNAME","value":"arqqYdH8GMwjwpVN"},{"name":"RAILS_DB_PASSWORD","value":"7jSANDSlx4fLXC2i"},{"name":"RAILS_DB_ADAPTER","value":"mysql2"},{"name":"RAILS_HOST_NAME","value":"cryptopus.ose3-test.puzzle.ch"},{"name":"RAILS_AIRBRAKE_HOST","value":"errbit.puzzle.ch"},{"name":"RAILS_AIRBRAKE_API_KEY","value":"804b69080121a8d06cbe7b493fa6ca0d"}],"resources":{},"terminationMessagePath":"/dev/termination-log","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{}}}},"status":{"latestVersion":17,"details":{"causes":[{"type":"ImageChange","imageTrigger":{"from":{"kind":"ImageStreamTag","name":"rails:latest"}}}]}}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: rails
+      openshift.io/deployment-config.name: rails
+    name: rails-17
+  spec:
+    replicas: 0
+    selector:
+      app: rails
+      deployment: rails-17
+      deploymentconfig: rails
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "17"
+          openshift.io/deployment-config.name: rails
+          openshift.io/deployment.name: rails-17
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deployment: rails-17
+          deploymentconfig: rails
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY_BASE
+            value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+          - name: RAILS_ENV
+            value: production
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "1"
+          - name: RAILS_DB_NAME
+            value: cryptopus_production
+          - name: RAILS_DB_HOST
+            value: mysql.cryptopus.svc.cluster.local
+          - name: RAILS_DB_USERNAME
+            value: arqqYdH8GMwjwpVN
+          - name: RAILS_DB_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: RAILS_DB_ADAPTER
+            value: mysql2
+          - name: RAILS_HOST_NAME
+            value: cryptopus.ose3-test.puzzle.ch
+          - name: RAILS_AIRBRAKE_HOST
+            value: errbit.puzzle.ch
+          - name: RAILS_AIRBRAKE_API_KEY
+            value: 804b69080121a8d06cbe7b493fa6ca0d
+          image: 172.30.1.1:5000/cryptopus/rails@sha256:87f6b4deb685abb87497c9ba268ba9f4b4e7862cb352fbe35c6a099fa6a1eb20
+          imagePullPolicy: Always
+          name: rails
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.name: rails-18-deploy
+      openshift.io/deployment-config.latest-version: "18"
+      openshift.io/deployment-config.name: rails
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "0"
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"rails","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/deploymentconfigs/rails","uid":"c6815fc7-5571-11e6-9028-001a4a026f33","resourceVersion":"9488115","creationTimestamp":"2016-07-29T09:49:43Z","labels":{"app":"rails"},"annotations":{"openshift.io/generated-by":"Puzzle ITC"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600,"pre":{"failurePolicy":"Abort","execNewPod":{"command":["/usr/bin/bash","-c","bundle exec rake db:migrate"],"containerName":"rails"}}},"resources":{}},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["rails"],"from":{"kind":"ImageStreamTag","name":"rails:latest"},"lastTriggeredImage":"172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0"}}],"replicas":1,"test":false,"selector":{"app":"rails","deploymentconfig":"rails"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rails","deploymentconfig":"rails"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"rails","image":"172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0","ports":[{"containerPort":8080,"protocol":"TCP"}],"env":[{"name":"SECRET_KEY_BASE","value":"KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM"},{"name":"RAILS_ENV","value":"production"},{"name":"RAILS_SERVE_STATIC_FILES","value":"1"},{"name":"RAILS_DB_NAME","value":"cryptopus_production"},{"name":"RAILS_DB_HOST","value":"mysql.cryptopus.svc.cluster.local"},{"name":"RAILS_DB_USERNAME","value":"arqqYdH8GMwjwpVN"},{"name":"RAILS_DB_PASSWORD","value":"7jSANDSlx4fLXC2i"},{"name":"RAILS_DB_ADAPTER","value":"mysql2"},{"name":"RAILS_HOST_NAME","value":"cryptopus.ose3-test.puzzle.ch"},{"name":"RAILS_AIRBRAKE_HOST","value":"errbit.puzzle.ch"},{"name":"RAILS_AIRBRAKE_API_KEY","value":"804b69080121a8d06cbe7b493fa6ca0d"}],"resources":{},"terminationMessagePath":"/dev/termination-log","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{}}}},"status":{"latestVersion":18,"details":{"causes":[{"type":"ImageChange","imageTrigger":{"from":{"kind":"ImageStreamTag","name":"rails:latest"}}}]}}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: rails
+      openshift.io/deployment-config.name: rails
+    name: rails-18
+  spec:
+    replicas: 0
+    selector:
+      app: rails
+      deployment: rails-18
+      deploymentconfig: rails
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "18"
+          openshift.io/deployment-config.name: rails
+          openshift.io/deployment.name: rails-18
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deployment: rails-18
+          deploymentconfig: rails
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY_BASE
+            value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+          - name: RAILS_ENV
+            value: production
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "1"
+          - name: RAILS_DB_NAME
+            value: cryptopus_production
+          - name: RAILS_DB_HOST
+            value: mysql.cryptopus.svc.cluster.local
+          - name: RAILS_DB_USERNAME
+            value: arqqYdH8GMwjwpVN
+          - name: RAILS_DB_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: RAILS_DB_ADAPTER
+            value: mysql2
+          - name: RAILS_HOST_NAME
+            value: cryptopus.ose3-test.puzzle.ch
+          - name: RAILS_AIRBRAKE_HOST
+            value: errbit.puzzle.ch
+          - name: RAILS_AIRBRAKE_API_KEY
+            value: 804b69080121a8d06cbe7b493fa6ca0d
+          image: 172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0
+          imagePullPolicy: Always
+          name: rails
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.name: rails-19-deploy
+      openshift.io/deployment-config.latest-version: "19"
+      openshift.io/deployment-config.name: rails
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "0"
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"rails","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/deploymentconfigs/rails","uid":"c6815fc7-5571-11e6-9028-001a4a026f33","resourceVersion":"9492738","creationTimestamp":"2016-07-29T09:49:43Z","labels":{"app":"rails"},"annotations":{"openshift.io/generated-by":"Puzzle ITC"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600,"pre":{"failurePolicy":"Abort","execNewPod":{"command":["/usr/bin/bash","-c","bundle exec rake db:migrate"],"containerName":"rails"}}},"resources":{}},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["rails"],"from":{"kind":"ImageStreamTag","name":"rails:latest"},"lastTriggeredImage":"172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0"}}],"replicas":1,"test":false,"selector":{"app":"rails","deploymentconfig":"rails"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rails","deploymentconfig":"rails"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"rails","image":"172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0","ports":[{"containerPort":8080,"protocol":"TCP"}],"env":[{"name":"SECRET_KEY_BASE","value":"KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM"},{"name":"RAILS_ENV","value":"production"},{"name":"RAILS_SERVE_STATIC_FILES","value":"1"},{"name":"RAILS_DB_NAME","value":"cryptopus_production"},{"name":"RAILS_DB_HOST","value":"mysql.cryptopus.svc.cluster.local"},{"name":"RAILS_DB_USERNAME","value":"arqqYdH8GMwjwpVN"},{"name":"RAILS_DB_PASSWORD","value":"7jSANDSlx4fLXC2i"},{"name":"RAILS_DB_ADAPTER","value":"mysql2"},{"name":"RAILS_HOST_NAME","value":"cryptopus.ose3.puzzle.ch"},{"name":"RAILS_AIRBRAKE_HOST","value":"errbit.puzzle.ch"},{"name":"RAILS_AIRBRAKE_API_KEY","value":"804b69080121a8d06cbe7b493fa6ca0d"}],"resources":{},"terminationMessagePath":"/dev/termination-log","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{}}}},"status":{"latestVersion":19,"details":{"causes":[{"type":"ConfigChange"}]}}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: rails
+      openshift.io/deployment-config.name: rails
+    name: rails-19
+  spec:
+    replicas: 0
+    selector:
+      app: rails
+      deployment: rails-19
+      deploymentconfig: rails
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "19"
+          openshift.io/deployment-config.name: rails
+          openshift.io/deployment.name: rails-19
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deployment: rails-19
+          deploymentconfig: rails
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY_BASE
+            value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+          - name: RAILS_ENV
+            value: production
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "1"
+          - name: RAILS_DB_NAME
+            value: cryptopus_production
+          - name: RAILS_DB_HOST
+            value: mysql.cryptopus.svc.cluster.local
+          - name: RAILS_DB_USERNAME
+            value: arqqYdH8GMwjwpVN
+          - name: RAILS_DB_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: RAILS_DB_ADAPTER
+            value: mysql2
+          - name: RAILS_HOST_NAME
+            value: cryptopus.ose3.puzzle.ch
+          - name: RAILS_AIRBRAKE_HOST
+            value: errbit.puzzle.ch
+          - name: RAILS_AIRBRAKE_API_KEY
+            value: 804b69080121a8d06cbe7b493fa6ca0d
+          image: 172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0
+          imagePullPolicy: Always
+          name: rails
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.name: rails-20-deploy
+      openshift.io/deployment-config.latest-version: "20"
+      openshift.io/deployment-config.name: rails
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"rails","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/deploymentconfigs/rails","uid":"c6815fc7-5571-11e6-9028-001a4a026f33","resourceVersion":"9952698","creationTimestamp":"2016-07-29T09:49:43Z","labels":{"app":"rails"},"annotations":{"openshift.io/generated-by":"Puzzle ITC"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600,"pre":{"failurePolicy":"Abort","execNewPod":{"command":["/usr/bin/bash","-c","bundle exec rake db:migrate"],"containerName":"rails"}}},"resources":{}},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["rails"],"from":{"kind":"ImageStreamTag","name":"rails:latest"},"lastTriggeredImage":"172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0"}}],"replicas":1,"test":false,"selector":{"app":"rails","deploymentconfig":"rails"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rails","deploymentconfig":"rails"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"rails","image":"172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0","ports":[{"containerPort":8080,"protocol":"TCP"}],"env":[{"name":"SECRET_KEY_BASE","value":"KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM"},{"name":"RAILS_ENV","value":"production"},{"name":"RAILS_SERVE_STATIC_FILES","value":"1"},{"name":"RAILS_DB_NAME","value":"cryptopus_production"},{"name":"RAILS_DB_HOST","value":"mysql.cryptopus.svc.cluster.local"},{"name":"RAILS_DB_USERNAME","value":"arqqYdH8GMwjwpVN"},{"name":"RAILS_DB_PASSWORD","value":"7jSANDSlx4fLXC2i"},{"name":"RAILS_DB_ADAPTER","value":"mysql2"},{"name":"RAILS_HOST_NAME","value":"cryptopus.ose3.puzzle.ch"},{"name":"RAILS_AIRBRAKE_HOST","value":"errbit.puzzle.ch"},{"name":"RAILS_AIRBRAKE_API_KEY","value":"804b69080121a8d06cbe7b493fa6ca0d"}],"resources":{},"terminationMessagePath":"/dev/termination-log","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{}}}},"status":{"latestVersion":20,"details":{"causes":[{"type":"ConfigChange"}]}}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: rails
+      openshift.io/deployment-config.name: rails
+    name: rails-20
+  spec:
+    replicas: 1
+    selector:
+      app: rails
+      deployment: rails-20
+      deploymentconfig: rails
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "20"
+          openshift.io/deployment-config.name: rails
+          openshift.io/deployment.name: rails-20
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deployment: rails-20
+          deploymentconfig: rails
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY_BASE
+            value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+          - name: RAILS_ENV
+            value: production
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "1"
+          - name: RAILS_DB_NAME
+            value: cryptopus_production
+          - name: RAILS_DB_HOST
+            value: mysql.cryptopus.svc.cluster.local
+          - name: RAILS_DB_USERNAME
+            value: arqqYdH8GMwjwpVN
+          - name: RAILS_DB_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: RAILS_DB_ADAPTER
+            value: mysql2
+          - name: RAILS_HOST_NAME
+            value: cryptopus.ose3.puzzle.ch
+          - name: RAILS_AIRBRAKE_HOST
+            value: errbit.puzzle.ch
+          - name: RAILS_AIRBRAKE_API_KEY
+            value: 804b69080121a8d06cbe7b493fa6ca0d
+          image: 172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0
+          imagePullPolicy: Always
+          name: rails
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.name: rails-8-deploy
+      openshift.io/deployment-config.latest-version: "8"
+      openshift.io/deployment-config.name: rails
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "0"
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"rails","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/deploymentconfigs/rails","uid":"c6815fc7-5571-11e6-9028-001a4a026f33","resourceVersion":"9362646","creationTimestamp":"2016-07-29T09:49:43Z","labels":{"app":"rails"},"annotations":{"openshift.io/generated-by":"Puzzle ITC"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600,"pre":{"failurePolicy":"Abort","execNewPod":{"command":["/usr/bin/bash","-c","bundle exec rake db:migrate"],"containerName":"rails"}}},"resources":{}},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["rails"],"from":{"kind":"ImageStreamTag","name":"rails:latest"},"lastTriggeredImage":"172.30.1.1:5000/cryptopus/rails@sha256:1a95b4cc938a64704d4a6d9268d19a097c2a9b748b582eb86c92199b5cb34498"}}],"replicas":1,"test":false,"selector":{"app":"rails","deploymentconfig":"rails"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rails","deploymentconfig":"rails"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"rails","image":"172.30.1.1:5000/cryptopus/rails@sha256:1a95b4cc938a64704d4a6d9268d19a097c2a9b748b582eb86c92199b5cb34498","ports":[{"containerPort":8080,"protocol":"TCP"}],"env":[{"name":"SECRET_KEY_BASE","value":"KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM"},{"name":"RAILS_ENV","value":"production"},{"name":"RAILS_SERVE_STATIC_FILES","value":"1"},{"name":"RAILS_DB_NAME","value":"cryptopus_production"},{"name":"RAILS_DB_HOST","value":"mysql.cryptopus.svc.cluster.local"},{"name":"RAILS_DB_USERNAME","value":"arqqYdH8GMwjwpVN"},{"name":"RAILS_DB_PASSWORD","value":"7jSANDSlx4fLXC2i"},{"name":"RAILS_DB_ADAPTER","value":"mysql2"},{"name":"RAILS_HOST_NAME","value":"cryptopus.ose3-test.puzzle.ch"},{"name":"RAILS_AIRBRAKE_HOST","value":"errbit.puzzle.ch"},{"name":"RAILS_AIRBRAKE_API_KEY","value":"804b69080121a8d06cbe7b493fa6ca0d"}],"resources":{},"terminationMessagePath":"/dev/termination-log","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{}}}},"status":{"latestVersion":8,"details":{"causes":[{"type":"ImageChange","imageTrigger":{"from":{"kind":"ImageStreamTag","name":"rails:latest"}}}]}}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: rails
+      openshift.io/deployment-config.name: rails
+    name: rails-8
+  spec:
+    replicas: 0
+    selector:
+      app: rails
+      deployment: rails-8
+      deploymentconfig: rails
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "8"
+          openshift.io/deployment-config.name: rails
+          openshift.io/deployment.name: rails-8
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deployment: rails-8
+          deploymentconfig: rails
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY_BASE
+            value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+          - name: RAILS_ENV
+            value: production
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "1"
+          - name: RAILS_DB_NAME
+            value: cryptopus_production
+          - name: RAILS_DB_HOST
+            value: mysql.cryptopus.svc.cluster.local
+          - name: RAILS_DB_USERNAME
+            value: arqqYdH8GMwjwpVN
+          - name: RAILS_DB_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: RAILS_DB_ADAPTER
+            value: mysql2
+          - name: RAILS_HOST_NAME
+            value: cryptopus.ose3-test.puzzle.ch
+          - name: RAILS_AIRBRAKE_HOST
+            value: errbit.puzzle.ch
+          - name: RAILS_AIRBRAKE_API_KEY
+            value: 804b69080121a8d06cbe7b493fa6ca0d
+          image: 172.30.1.1:5000/cryptopus/rails@sha256:1a95b4cc938a64704d4a6d9268d19a097c2a9b748b582eb86c92199b5cb34498
+          imagePullPolicy: Always
+          name: rails
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.name: rails-9-deploy
+      openshift.io/deployment-config.latest-version: "9"
+      openshift.io/deployment-config.name: rails
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "0"
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"rails","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/deploymentconfigs/rails","uid":"c6815fc7-5571-11e6-9028-001a4a026f33","resourceVersion":"9378012","creationTimestamp":"2016-07-29T09:49:43Z","labels":{"app":"rails"},"annotations":{"openshift.io/generated-by":"Puzzle ITC"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600,"pre":{"failurePolicy":"Abort","execNewPod":{"command":["/usr/bin/bash","-c","bundle exec rake db:migrate"],"containerName":"rails"}}},"resources":{}},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["rails"],"from":{"kind":"ImageStreamTag","name":"rails:latest"},"lastTriggeredImage":"172.30.1.1:5000/cryptopus/rails@sha256:5d6640fbd488c1b379e2a7821778bfd12cab225a42ee9f6945e9003d3274b4c7"}}],"replicas":1,"test":false,"selector":{"app":"rails","deploymentconfig":"rails"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rails","deploymentconfig":"rails"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"rails","image":"172.30.1.1:5000/cryptopus/rails@sha256:5d6640fbd488c1b379e2a7821778bfd12cab225a42ee9f6945e9003d3274b4c7","ports":[{"containerPort":8080,"protocol":"TCP"}],"env":[{"name":"SECRET_KEY_BASE","value":"KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM"},{"name":"RAILS_ENV","value":"production"},{"name":"RAILS_SERVE_STATIC_FILES","value":"1"},{"name":"RAILS_DB_NAME","value":"cryptopus_production"},{"name":"RAILS_DB_HOST","value":"mysql.cryptopus.svc.cluster.local"},{"name":"RAILS_DB_USERNAME","value":"arqqYdH8GMwjwpVN"},{"name":"RAILS_DB_PASSWORD","value":"7jSANDSlx4fLXC2i"},{"name":"RAILS_DB_ADAPTER","value":"mysql2"},{"name":"RAILS_HOST_NAME","value":"cryptopus.ose3-test.puzzle.ch"},{"name":"RAILS_AIRBRAKE_HOST","value":"errbit.puzzle.ch"},{"name":"RAILS_AIRBRAKE_API_KEY","value":"804b69080121a8d06cbe7b493fa6ca0d"}],"resources":{},"terminationMessagePath":"/dev/termination-log","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{}}}},"status":{"latestVersion":9,"details":{"causes":[{"type":"ImageChange","imageTrigger":{"from":{"kind":"ImageStreamTag","name":"rails:latest"}}}]}}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: rails
+      openshift.io/deployment-config.name: rails
+    name: rails-9
+  spec:
+    replicas: 0
+    selector:
+      app: rails
+      deployment: rails-9
+      deploymentconfig: rails
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "9"
+          openshift.io/deployment-config.name: rails
+          openshift.io/deployment.name: rails-9
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: rails
+          deployment: rails-9
+          deploymentconfig: rails
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY_BASE
+            value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+          - name: RAILS_ENV
+            value: production
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "1"
+          - name: RAILS_DB_NAME
+            value: cryptopus_production
+          - name: RAILS_DB_HOST
+            value: mysql.cryptopus.svc.cluster.local
+          - name: RAILS_DB_USERNAME
+            value: arqqYdH8GMwjwpVN
+          - name: RAILS_DB_PASSWORD
+            value: 7jSANDSlx4fLXC2i
+          - name: RAILS_DB_ADAPTER
+            value: mysql2
+          - name: RAILS_HOST_NAME
+            value: cryptopus.ose3-test.puzzle.ch
+          - name: RAILS_AIRBRAKE_HOST
+            value: errbit.puzzle.ch
+          - name: RAILS_AIRBRAKE_API_KEY
+            value: 804b69080121a8d06cbe7b493fa6ca0d
+          image: 172.30.1.1:5000/cryptopus/rails@sha256:5d6640fbd488c1b379e2a7821778bfd12cab225a42ee9f6945e9003d3274b4c7
+          imagePullPolicy: Always
+          name: rails
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: rails
+    name: rails
+  spec:
+    host: cryptopus.ose3.puzzle.ch
+    tls:
+      certificate: |-
+        -----BEGIN CERTIFICATE-----
+        MIIGFDCCBPygAwIBAgISA7Rx3ksoQg41MdDc/AalMN3IMA0GCSqGSIb3DQEBCwUA
+        MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+        ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xNjA2MTMxMDIyMDBaFw0x
+        NjA5MTExMDIyMDBaMCMxITAfBgNVBAMTGGNyeXB0b3B1cy5vc2UzLnB1enpsZS5j
+        aDCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAKjF1ysn/xdT7CISNgzQ
+        FOTR24etgawuqc58E1TFk77GmbulOZu20OiQn54fjmnSIXlefqJ9wDL35h60fTiy
+        ztxBqocWYFnDl9p2VI9YrIhjXoiHXoUf34tFC12RUeQ2YzOO8tnGzf58abR2LZ86
+        CErlzxQgUKdOymlegDr7EuUgAEbjOyNaMSrp1n0pqM+wJJqWrbLlvnUYKj8q/y/W
+        DSFCAcIFp6PDQfvgUYeFmD0WOnUWZDRBjHbAYNEaCKdVS80DVqcuZvpzmDXHqKNV
+        9LC2QSsIHlFqroZ5E2u2K4r9jtAeQ9wqzfKzhZqlqYzBmpXaOrR3NUAfh8bO6oGG
+        DJlMFJ0iQrIDTRkoj5HF7jUg1BE4KXGb5vBiqtXfQQgZ8AQURp9gXPGHxiCu1tCr
+        9mNtoOmqM+lUCByQ1n4AV7ZOH7YEqVHJbszrBkDOJQoOsYiT32J8Czh16z7WDlrD
+        7HuCJfmRxJEbeBP79/IY89ziHO9q9IwnNKJ4vvuIh0OzRAnd248J+K/Ks16S3Hv/
+        G/uPJCgHkYimUjEPuGRectY3/KeY7G3US9cXjnbojfXPo7xfe+8Op6bW6bqI54Zg
+        nPGIupG6H5daUtmXXvD/lEEArD/CQ8rHILpQv+fOFkwhs3C3/1ScxLq6J2dajB7+
+        eVXYtkPn0kTurJ5oOznfqgFTAgMBAAGjggIZMIICFTAOBgNVHQ8BAf8EBAMCBaAw
+        HQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYD
+        VR0OBBYEFKd5VPD0sE4TPBAPTEz/TXrd/1h8MB8GA1UdIwQYMBaAFKhKamMEfd26
+        5tE5t6ZFZe/zqOyhMHAGCCsGAQUFBwEBBGQwYjAvBggrBgEFBQcwAYYjaHR0cDov
+        L29jc3AuaW50LXgzLmxldHNlbmNyeXB0Lm9yZy8wLwYIKwYBBQUHMAKGI2h0dHA6
+        Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5vcmcvMCMGA1UdEQQcMBqCGGNyeXB0
+        b3B1cy5vc2UzLnB1enpsZS5jaDCB/gYDVR0gBIH2MIHzMAgGBmeBDAECATCB5gYL
+        KwYBBAGC3xMBAQEwgdYwJgYIKwYBBQUHAgEWGmh0dHA6Ly9jcHMubGV0c2VuY3J5
+        cHQub3JnMIGrBggrBgEFBQcCAjCBngyBm1RoaXMgQ2VydGlmaWNhdGUgbWF5IG9u
+        bHkgYmUgcmVsaWVkIHVwb24gYnkgUmVseWluZyBQYXJ0aWVzIGFuZCBvbmx5IGlu
+        IGFjY29yZGFuY2Ugd2l0aCB0aGUgQ2VydGlmaWNhdGUgUG9saWN5IGZvdW5kIGF0
+        IGh0dHBzOi8vbGV0c2VuY3J5cHQub3JnL3JlcG9zaXRvcnkvMA0GCSqGSIb3DQEB
+        CwUAA4IBAQCSRW5sWcEZKdOdSa5arMQQ1m7FosywnurHPkTiglmfeRmx5iC9Vi7n
+        XV77D7vIacNqqz0ipxtEItRiGy042UMBiuz1Pbc7JxSJRdjyTpkHPU6/P3Njw/Ky
+        pkASKxOTzobNGiQWEc5vKGmM5WcxGqg7yed8MH0yVMRwsXataGZvFSEebFsubbNG
+        ggA0Fe+mNxrnc7tCIMIxdY/DkijvYixuN3fUCvblfgZZEHXtVEn3hg4RgIHHJ273
+        JHLcjljp/8dayZpFbuXGf8lcQxyeLGYdczofBMr6oAiDDfe39Bvl39WkIptyk9dW
+        LT4JqwRB529CU28CRAWrKKc7nI3sr/eQ
+        -----END CERTIFICATE-----
+      insecureEdgeTerminationPolicy: Redirect
+      key: |-
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIJKAIBAAKCAgEAqMXXKyf/F1PsIhI2DNAU5NHbh62BrC6pznwTVMWTvsaZu6U5
+        m7bQ6JCfnh+OadIheV5+on3AMvfmHrR9OLLO3EGqhxZgWcOX2nZUj1isiGNeiIde
+        hR/fi0ULXZFR5DZjM47y2cbN/nxptHYtnzoISuXPFCBQp07KaV6AOvsS5SAARuM7
+        I1oxKunWfSmoz7AkmpatsuW+dRgqPyr/L9YNIUIBwgWno8NB++BRh4WYPRY6dRZk
+        NEGMdsBg0RoIp1VLzQNWpy5m+nOYNceoo1X0sLZBKwgeUWquhnkTa7Yriv2O0B5D
+        3CrN8rOFmqWpjMGaldo6tHc1QB+Hxs7qgYYMmUwUnSJCsgNNGSiPkcXuNSDUETgp
+        cZvm8GKq1d9BCBnwBBRGn2Bc8YfGIK7W0Kv2Y22g6aoz6VQIHJDWfgBXtk4ftgSp
+        UcluzOsGQM4lCg6xiJPfYnwLOHXrPtYOWsPse4Il+ZHEkRt4E/v38hjz3OIc72r0
+        jCc0oni++4iHQ7NECd3bjwn4r8qzXpLce/8b+48kKAeRiKZSMQ+4ZF5y1jf8p5js
+        bdRL1xeOduiN9c+jvF977w6nptbpuojnhmCc8Yi6kbofl1pS2Zde8P+UQQCsP8JD
+        yscgulC/584WTCGzcLf/VJzEuronZ1qMHv55Vdi2Q+fSRO6snmg7Od+qAVMCAwEA
+        AQKCAgA8pDmX7BsgSqtB4sFBAVNAlJcIvTMmpu2kn7hicUuQ9NMwNUHpzVpq9ewk
+        aLpHE5WrgmSGBiEVLzWkOr3zrWvegEnBmCyulDTv7iycBQSZTPsem2U++CDebcST
+        ri96jIBAelCQJ3rEwfdJPF1QJQ3tu30YgjP4qbrY+Xehua0kXsc6sVMCdNnNzY+g
+        EWPynBvK3/ExopM4h6JGaDChA4xcMtdm25lMolAHLKaex0XYTTBb+duvWw4ZbS5c
+        c7pARcmitFxiXa3qt7YtPLw/VBdDl3j6+UPLhUWIU+DChwZGPq0d4oIHjenKFu8e
+        jf/J75aX2X3Wci7UB4BF0vs35u6HYQpUAAHwMh+DXvAfC1Ghc60yyrlkj9tEAyP4
+        cimA1i0GQivHvy22jbfA45LSJyhVXNF1KpWRDzAOOmOGdvXMtDZV7E1p4F4HDyeL
+        pWkkKvv6QJwPuiUHV3oj1jC7to64LvRWyFZrv9e/SxI/yKxhK0QSE490TQvfKxpl
+        XpQDXA64lxrSGH4qyC+aAFrypQV/DNEk/WvpeeWCyGrfoBORESZWrs1DE5yM+OBO
+        7QuWso95WOvgR1TkqEwhAcJCzeq1471j2BQx4mzZxpGwKlIGdwqyYhIKUkNM5+DW
+        N/Dp2induLDmHigXNZoo93QvLNmGq/myMNYQLB3utpb8hlMzgQKCAQEA0Sh0Zn7f
+        bfc/5JQINsvgDDhulOsBfCVjVVf2rvDRybUQCEua4XzVhVbyUL7kRyqcWrEP/+V+
+        O72N+ZnUzqdEuFDK437dDuBbJ8iHdjA5ce+/ReoHDnlTGS04qFQq2ku5QjTrFoR6
+        5Fii/ziQZdDeoGL0NW66pSHRve35Uo4D2MbklyzwPhv66i2ihUe8XaiY8aHeQZrt
+        K2RtaAcEq2quRCVXAyOE1tU+1wHeO/MfTqz3oFKY51nEFF9wdtU58A7yDTa2qTjZ
+        8wQ1pAhLCUuG98nBp/+1l45/IlEn5nKlHJ8L7JzzQQ3y4Byh3g/soscmWjK1IAmx
+        ZSkp3qs/zDr0kQKCAQEAzpIAhv7q2QCOnhchEbbT07LUbfjTQfsrv510Rx9CGfvD
+        ka0+j212YP2ReolFj7B2hqpAa9/s2Q0NitMRiFpux72AQbNIF9WMtf4/fITovtkf
+        6+qn8FKx9O0KIdl546/+EVzh0HgYaJJL3QefrbL/ZCdVRZiEy0IJ1mmufYk1lxBA
+        IWC5deNeJB3d+OpAkOGTuplFvqXd0dL4QHCfjDU8/eSJRynRtzztKgJ89Yvhsx9t
+        ukccdOnTT0BOWur7QAIbVIQqJoNltT9Jrj7gGi3uVhpE6R9gaaaBKKFM9rz8LL3b
+        yXFD7cIdlkbMFBtpngEHu2PKJ34eMG6YRuFkQOw5owKCAQEAkI9VZEHsSyTIlEN8
+        KeNfRxL52xNSQ2vT6/iQFvl7Bd6O5izbL14IddBSSlylikp5JnWaiVMknEW3Cvy3
+        iN0zMfElSXc1ckK+vhBrD9Tk30rE+J13oxlXxd7reewycg5ETO4mTbni9lAM2DlQ
+        FA740AGUqBmQBvII9Sy1Vcmx/vH4rEPzB/puwcwot9WM627LxrYJ124s3gDbXTr8
+        jz18lLz6FsFF3vYkKJax8t1mlgoWXEi6RaxVSX9tS7S0BqdNxLQ8K1mPydbu/CB/
+        PD1nW3umzWZ/K/DhDebpnO1AETgcFb2koyHw69TeS4zWEOt0JoNFjI8mfLSmq6/Q
+        uGdHAQKCAQBNG0SlH1xsWf/iVQHcCeGyAOu4jQvWcjoXUV/I+IsFBewvYXqbsSFh
+        /OSj17+mbhkgFUbsvW48atnmOvkta4w0dLD+VTyQ4P6gJGJwSXBTZNq8hh/f3g5d
+        PWntzq7n5ZaxxnjoBxwdVJaKz8Cz5r/cE66Jxu+yq1jetx4R7/iYBdHaY692qMNI
+        OfnUYyRssDcjjPjyvBk7rENMUn3LqUe2AeuYK60Dd/OTHdClG2zJHu8nfEnL/kgJ
+        KhjVaScV8nNfLeJJ8/wwFoqbRw8B1qlDbJTSbAriBOvrTaJb65k53ji/Tc8sXawL
+        nyuoSb834myPbyVTbok4TN/8fT+d2E9/AoIBAAbcWXNPYGnxQ3ktGGtCVus1UOVX
+        EC/2EUgoXKCO+1duEkU4Jl5udAJ6k/rEWaCAcIyCKOFSurKNs2brY6D9pTPiEFbZ
+        WutBUJAL3RO02yyu5Tp5oZFNF5VokSONTQS02wJTBiTFZ/YRly6+nTwDoVZ+xir0
+        Y5u3OU/06j6893LkwYREqKrYeK4yizbNFcjc5AVXqUM+KFaNHEMSd7E1udUDmTqn
+        eqOoksgvVJIWBJnBAsViC5PyOuCPfVumEh42sRGTnYkFAa8CjvN8MFHFLx5YmCpx
+        XI616S+3E4X8+gutRG8cYNauBvRShAJKeoGTgTGIz1x0dVTNblYhzYORbtw=
+        -----END RSA PRIVATE KEY-----
+      termination: edge
+    to:
+      kind: Service
+      name: rails
+  status: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: rails
+    name: glusterfs-cluster
+  spec:
+    ports:
+    - port: 1
+      protocol: TCP
+      targetPort: 1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: rails
+      template: mysql-persistent-template
+    name: mysql
+  spec:
+    ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    selector:
+      name: mysql
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: Puzzle ITC
+    creationTimestamp: null
+    labels:
+      app: rails
+    name: rails
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: rails
+      deploymentconfig: rails
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicationController","namespace":"cryptopus","name":"mysql-1","uid":"c67ab173-5571-11e6-9028-001a4a026f33","apiVersion":"v1","resourceVersion":"9377386"}}
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: mysql
+      openshift.io/deployment.name: mysql-1
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: null
+    generateName: mysql-1-
+    labels:
+      app: rails
+      deployment: mysql-1
+      deploymentconfig: mysql
+      name: mysql
+  spec:
+    containers:
+    - env:
+      - name: MYSQL_USER
+        value: arqqYdH8GMwjwpVN
+      - name: MYSQL_PASSWORD
+        value: 7jSANDSlx4fLXC2i
+      - name: MYSQL_DATABASE
+        value: cryptopus_production
+      image: registry.access.redhat.com/rhscl/mysql-56-rhel7:latest
+      imagePullPolicy: IfNotPresent
+      name: mysql
+      ports:
+      - containerPort: 3306
+        protocol: TCP
+      resources: {}
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+          - SYS_CHROOT
+        privileged: false
+        runAsUser: 1001380000
+        seLinuxOptions:
+          level: s0:c37,c24
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/lib/mysql/data
+        name: mysql-data
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-96e15
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    host: constellationi.rz.puzzle.ch
+    imagePullSecrets:
+    - name: default-dockercfg-g25ei
+    nodeName: constellationi.rz.puzzle.ch
+    restartPolicy: Always
+    securityContext:
+      fsGroup: 1001380000
+      seLinuxOptions:
+        level: s0:c37,c24
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: mysql-data
+      persistentVolumeClaim:
+        claimName: mysqlpvc
+    - name: default-token-96e15
+      secret:
+        secretName: default-token-96e15
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      openshift.io/build.name: ose3-rails-1
+      openshift.io/scc: privileged
+    creationTimestamp: null
+    labels:
+      openshift.io/build.name: ose3-rails-1
+    name: ose3-rails-1-build
+  spec:
+    containers:
+    - args:
+      - --loglevel=2
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"v1","metadata":{"name":"ose3-rails-1","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/builds/ose3-rails-1","uid":"22d2a75f-5fab-11e6-9028-001a4a026f33","resourceVersion":"9486915","creationTimestamp":"2016-08-11T10:05:30Z","labels":{"app":"ose3-rails","buildconfig":"ose3-rails","openshift.io/build-config.name":"ose3-rails"},"annotations":{"openshift.io/build-config.name":"ose3-rails","openshift.io/build.number":"1"}},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/puzzle/ose3-rails.git"},"secrets":[]},"strategy":{"type":"Docker","dockerStrategy":{"from":{"kind":"DockerImage","name":"openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360"}}},"output":{"to":{"kind":"DockerImage","name":"172.30.1.1:5000/cryptopus/ose3-rails:latest"},"pushSecret":{"name":"builder-dockercfg-hjqun"}},"resources":{},"postCommit":{}},"status":{"phase":"New","outputDockerImageReference":"172.30.1.1:5000/cryptopus/ose3-rails:latest","config":{"kind":"BuildConfig","namespace":"cryptopus","name":"ose3-rails"}}}
+      - name: BUILD_LOGLEVEL
+        value: "2"
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/puzzle/ose3-rails.git
+      - name: SOURCE_URI
+        value: https://github.com/puzzle/ose3-rails.git
+      - name: ORIGIN_VERSION
+        value: v3.2.1.9-1-g2265530
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      image: openshift3/ose-docker-builder:v3.2.1.9
+      imagePullPolicy: IfNotPresent
+      name: docker-build
+      resources: {}
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/run/docker.sock
+        name: docker-socket
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-hjqun-push
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-nz6o0
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    host: constitutioni.rz.puzzle.ch
+    imagePullSecrets:
+    - name: builder-dockercfg-hjqun
+    nodeName: constitutioni.rz.puzzle.ch
+    restartPolicy: Never
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - hostPath:
+        path: /var/run/docker.sock
+      name: docker-socket
+    - name: builder-dockercfg-hjqun-push
+      secret:
+        secretName: builder-dockercfg-hjqun
+    - name: builder-token-nz6o0
+      secret:
+        secretName: builder-token-nz6o0
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      openshift.io/build.name: ose3-rails-2
+      openshift.io/scc: privileged
+    creationTimestamp: null
+    labels:
+      openshift.io/build.name: ose3-rails-2
+    name: ose3-rails-2-build
+  spec:
+    containers:
+    - args:
+      - --loglevel=2
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"v1","metadata":{"name":"ose3-rails-2","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/builds/ose3-rails-2","uid":"86438144-65d9-11e6-9028-001a4a026f33","resourceVersion":"9952010","creationTimestamp":"2016-08-19T06:52:41Z","labels":{"app":"ose3-rails","buildconfig":"ose3-rails","openshift.io/build-config.name":"ose3-rails"},"annotations":{"openshift.io/build-config.name":"ose3-rails","openshift.io/build.number":"2"}},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/puzzle/ose3-rails.git"},"secrets":[]},"strategy":{"type":"Docker","dockerStrategy":{"from":{"kind":"DockerImage","name":"openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360"}}},"output":{"to":{"kind":"DockerImage","name":"172.30.1.1:5000/cryptopus/ose3-rails:latest"}},"resources":{},"postCommit":{}},"status":{"phase":"New","reason":"InvalidOutputReference","message":"The referenced output image stream cryptopus/ose3-rails does not exist.","outputDockerImageReference":"172.30.1.1:5000/cryptopus/ose3-rails:latest","config":{"kind":"BuildConfig","namespace":"cryptopus","name":"ose3-rails"}}}
+      - name: BUILD_LOGLEVEL
+        value: "2"
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/puzzle/ose3-rails.git
+      - name: SOURCE_URI
+        value: https://github.com/puzzle/ose3-rails.git
+      - name: ORIGIN_VERSION
+        value: v3.2.1.9-1-g2265530
+      image: openshift3/ose-docker-builder:v3.2.1.9
+      imagePullPolicy: IfNotPresent
+      name: docker-build
+      resources: {}
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/run/docker.sock
+        name: docker-socket
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-nz6o0
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    host: constitutioni.rz.puzzle.ch
+    imagePullSecrets:
+    - name: builder-dockercfg-hjqun
+    nodeName: constitutioni.rz.puzzle.ch
+    restartPolicy: Never
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - hostPath:
+        path: /var/run/docker.sock
+      name: docker-socket
+    - name: builder-token-nz6o0
+      secret:
+        secretName: builder-token-nz6o0
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      openshift.io/build.name: ose3-rails-3
+      openshift.io/scc: privileged
+    creationTimestamp: null
+    labels:
+      openshift.io/build.name: ose3-rails-3
+    name: ose3-rails-3-build
+  spec:
+    containers:
+    - args:
+      - --loglevel=2
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"v1","metadata":{"name":"ose3-rails-3","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/builds/ose3-rails-3","uid":"f626cd78-65da-11e6-9028-001a4a026f33","resourceVersion":"9952586","creationTimestamp":"2016-08-19T07:02:58Z","labels":{"app":"ose3-rails","buildconfig":"ose3-rails","openshift.io/build-config.name":"ose3-rails"},"annotations":{"openshift.io/build-config.name":"ose3-rails","openshift.io/build.number":"3"}},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/puzzle/ose3-rails.git"},"secrets":[]},"strategy":{"type":"Docker","dockerStrategy":{"from":{"kind":"DockerImage","name":"openshift/ruby-22-centos7@sha256:5dc0856fea9551e102815863cceeabd3aee862ec4ad5f2625eb51564924f0360"}}},"output":{"to":{"kind":"DockerImage","name":"172.30.1.1:5000/cryptopus/ose3-rails:latest"},"pushSecret":{"name":"builder-dockercfg-hjqun"}},"resources":{},"postCommit":{}},"status":{"phase":"New","outputDockerImageReference":"172.30.1.1:5000/cryptopus/ose3-rails:latest","config":{"kind":"BuildConfig","namespace":"cryptopus","name":"ose3-rails"}}}
+      - name: BUILD_LOGLEVEL
+        value: "2"
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/puzzle/ose3-rails.git
+      - name: SOURCE_URI
+        value: https://github.com/puzzle/ose3-rails.git
+      - name: ORIGIN_VERSION
+        value: v3.2.1.9-1-g2265530
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      image: openshift3/ose-docker-builder:v3.2.1.9
+      imagePullPolicy: IfNotPresent
+      name: docker-build
+      resources: {}
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/run/docker.sock
+        name: docker-socket
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-hjqun-push
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-nz6o0
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    host: constitutioni.rz.puzzle.ch
+    imagePullSecrets:
+    - name: builder-dockercfg-hjqun
+    nodeName: constitutioni.rz.puzzle.ch
+    restartPolicy: Never
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - hostPath:
+        path: /var/run/docker.sock
+      name: docker-socket
+    - name: builder-dockercfg-hjqun-push
+      secret:
+        secretName: builder-dockercfg-hjqun
+    - name: builder-token-nz6o0
+      secret:
+        secretName: builder-token-nz6o0
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      openshift.io/deployment.name: rails-17
+      openshift.io/scc: restricted
+    creationTimestamp: null
+    labels:
+      openshift.io/deployer-pod-for.name: rails-17
+    name: rails-17-deploy
+  spec:
+    activeDeadlineSeconds: 21600
+    containers:
+    - env:
+      - name: KUBERNETES_MASTER
+        value: https://cheyennei.rz.puzzle.ch:8443
+      - name: OPENSHIFT_MASTER
+        value: https://cheyennei.rz.puzzle.ch:8443
+      - name: BEARER_TOKEN_FILE
+        value: /var/run/secrets/kubernetes.io/serviceaccount/token
+      - name: OPENSHIFT_CA_DATA
+        value: |
+          -----BEGIN CERTIFICATE-----
+          MIIC5jCCAdCgAwIBAgIBATALBgkqhkiG9w0BAQswJjEkMCIGA1UEAwwbb3BlbnNo
+          aWZ0LXNpZ25lckAxNDU5MjQzMDg1MB4XDTE2MDMyOTA5MTgwNVoXDTIxMDMyODA5
+          MTgwNlowJjEkMCIGA1UEAwwbb3BlbnNoaWZ0LXNpZ25lckAxNDU5MjQzMDg1MIIB
+          IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwrCikPOui6cQq5hvK9HUc2wp
+          brFIwNWuUx2T3pH+f7jPpXm8F8bw4C/I1+DKqiGZAVtPssukzJxGHnPm5pYjElSb
+          sRL5fdh7lFK/oOWxVboLR6CKAUxlcW5OZjcJMzD4Z+65bBWt1232HYMeYeSmKfuU
+          gltjmHaXmLSlVPZCrBHspktpc/woVq4tricSzONw4zUyrbCDXAWgBH4y0F5P1jWn
+          UuY2DgYQOQocNygTo+04vRYm9wyLO6an2YjbNXNzirl4yQTuFgIzb/pKduTcHlQT
+          S4Q9ANG+ZdIP5tjuAK1FexLYT6uFYYCSxFpSRoPmFEcxBeQuzJmntO14DUyttQID
+          AQABoyMwITAOBgNVHQ8BAf8EBAMCAKQwDwYDVR0TAQH/BAUwAwEB/zALBgkqhkiG
+          9w0BAQsDggEBALAq3ZnCpgLBT3y6a5FPi0kMZbU9YEPvMsUQLggwXJzFlW6yeFp2
+          0fa9eAQcLjDJqQJqigr01AbMPJi29zo75HXMNyf7oPpR5J1jwhp/2TCnjhE8XLrP
+          uJMc3VVdbzXktlJVfDSus0MytNjp91Y7xcrno5litbzw8FNH3dWTwySV/GeBTDfb
+          uBuIMsW9m24lG29EJYMzHbwSpRYnicMcJJhByRHET1WRHzeILssg+m7KHyhKMWas
+          C+5wP1NrCrkD1WT7Nra8tgo4lxGMXUPdofJRs4PyEs7I9MS+hhfD7IJR8tAAcB9y
+          ajhCk7KGsy4DqLYP2Fnh58WiMRLJJug+PCg=
+          -----END CERTIFICATE-----
+      - name: OPENSHIFT_DEPLOYMENT_NAME
+        value: rails-17
+      - name: OPENSHIFT_DEPLOYMENT_NAMESPACE
+        value: cryptopus
+      image: openshift3/ose-deployer:v3.2.1.9
+      imagePullPolicy: IfNotPresent
+      name: deployment
+      resources: {}
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+          - SYS_CHROOT
+        privileged: false
+        runAsUser: 1001380000
+        seLinuxOptions:
+          level: s0:c37,c24
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: deployer-token-d6sv1
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    host: constitutioni.rz.puzzle.ch
+    imagePullSecrets:
+    - name: deployer-dockercfg-s5vkd
+    nodeName: constitutioni.rz.puzzle.ch
+    restartPolicy: Never
+    securityContext:
+      fsGroup: 1001380000
+      seLinuxOptions:
+        level: s0:c37,c24
+    serviceAccount: deployer
+    serviceAccountName: deployer
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: deployer-token-d6sv1
+      secret:
+        secretName: deployer-token-d6sv1
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      openshift.io/build.name: rails-19
+      openshift.io/scc: privileged
+    creationTimestamp: null
+    labels:
+      openshift.io/build.name: rails-19
+    name: rails-19-build
+  spec:
+    containers:
+    - args:
+      - --loglevel=2
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"v1","metadata":{"name":"rails-19","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/builds/rails-19","uid":"934b9118-5faa-11e6-9028-001a4a026f33","resourceVersion":"9486723","creationTimestamp":"2016-08-11T10:01:30Z","labels":{"app":"rails","buildconfig":"rails","openshift.io/build-config.name":"rails"},"annotations":{"openshift.io/build-config.name":"rails","openshift.io/build.number":"19"}},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/puzzle/cryptopus.git","ref":"master"},"secrets":null},"strategy":{"type":"Docker","dockerStrategy":{"from":{"kind":"DockerImage","name":"docker.io/puzzle/ose3-rails@sha256:c1d3595f276e243462c4df0f12cc1abcb46a0b5a842c41355eedd84b36df0870"},"forcePull":true}},"output":{"to":{"kind":"DockerImage","name":"172.30.1.1:5000/cryptopus/rails:latest"},"pushSecret":{"name":"builder-dockercfg-hjqun"}},"resources":{},"postCommit":{}},"status":{"phase":"New","outputDockerImageReference":"172.30.1.1:5000/cryptopus/rails:latest","config":{"kind":"BuildConfig","namespace":"cryptopus","name":"rails"}}}
+      - name: BUILD_LOGLEVEL
+        value: "2"
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/puzzle/cryptopus.git
+      - name: SOURCE_URI
+        value: https://github.com/puzzle/cryptopus.git
+      - name: SOURCE_REF
+        value: master
+      - name: ORIGIN_VERSION
+        value: v3.2.1.9-1-g2265530
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      image: openshift3/ose-docker-builder:v3.2.1.9
+      imagePullPolicy: IfNotPresent
+      name: docker-build
+      resources: {}
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/run/docker.sock
+        name: docker-socket
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-hjqun-push
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-nz6o0
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    host: constitutioni.rz.puzzle.ch
+    imagePullSecrets:
+    - name: builder-dockercfg-hjqun
+    nodeName: constitutioni.rz.puzzle.ch
+    restartPolicy: Never
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - hostPath:
+        path: /var/run/docker.sock
+      name: docker-socket
+    - name: builder-dockercfg-hjqun-push
+      secret:
+        secretName: builder-dockercfg-hjqun
+    - name: builder-token-nz6o0
+      secret:
+        secretName: builder-token-nz6o0
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      openshift.io/build.name: rails-20
+      openshift.io/scc: privileged
+    creationTimestamp: null
+    labels:
+      openshift.io/build.name: rails-20
+    name: rails-20-build
+  spec:
+    containers:
+    - args:
+      - --loglevel=2
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"v1","metadata":{"name":"rails-20","namespace":"cryptopus","selfLink":"/oapi/v1/namespaces/cryptopus/builds/rails-20","uid":"3df22916-5faf-11e6-9028-001a4a026f33","resourceVersion":"9487750","creationTimestamp":"2016-08-11T10:34:54Z","labels":{"app":"rails","buildconfig":"rails","openshift.io/build-config.name":"rails"},"annotations":{"openshift.io/build-config.name":"rails","openshift.io/build.number":"20"}},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/puzzle/cryptopus.git","ref":"master"},"secrets":null},"strategy":{"type":"Docker","dockerStrategy":{"from":{"kind":"DockerImage","name":"172.30.1.1:5000/ose3-rails/ose3-rails@sha256:32dae0e163a810aa4d58e68118460925948e4f0eb5f3a2e3d7ffc4f1bda74861"},"pullSecret":{"name":"builder-dockercfg-hjqun"},"forcePull":true}},"output":{"to":{"kind":"DockerImage","name":"172.30.1.1:5000/cryptopus/rails:latest"},"pushSecret":{"name":"builder-dockercfg-hjqun"}},"resources":{},"postCommit":{}},"status":{"phase":"New","outputDockerImageReference":"172.30.1.1:5000/cryptopus/rails:latest","config":{"kind":"BuildConfig","namespace":"cryptopus","name":"rails"}}}
+      - name: BUILD_LOGLEVEL
+        value: "2"
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/puzzle/cryptopus.git
+      - name: SOURCE_URI
+        value: https://github.com/puzzle/cryptopus.git
+      - name: SOURCE_REF
+        value: master
+      - name: ORIGIN_VERSION
+        value: v3.2.1.9-1-g2265530
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      - name: PULL_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/pull
+      image: openshift3/ose-docker-builder:v3.2.1.9
+      imagePullPolicy: IfNotPresent
+      name: docker-build
+      resources: {}
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/run/docker.sock
+        name: docker-socket
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-hjqun-push
+        readOnly: true
+      - mountPath: /var/run/secrets/openshift.io/pull
+        name: builder-dockercfg-hjqun-pull
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-nz6o0
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    host: constitutioni.rz.puzzle.ch
+    imagePullSecrets:
+    - name: builder-dockercfg-hjqun
+    nodeName: constitutioni.rz.puzzle.ch
+    restartPolicy: Never
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - hostPath:
+        path: /var/run/docker.sock
+      name: docker-socket
+    - name: builder-dockercfg-hjqun-push
+      secret:
+        secretName: builder-dockercfg-hjqun
+    - name: builder-dockercfg-hjqun-pull
+      secret:
+        secretName: builder-dockercfg-hjqun
+    - name: builder-token-nz6o0
+      secret:
+        secretName: builder-token-nz6o0
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicationController","namespace":"cryptopus","name":"rails-20","uid":"3bd8213e-65db-11e6-9028-001a4a026f33","apiVersion":"v1","resourceVersion":"9952742"}}
+      openshift.io/deployment-config.latest-version: "20"
+      openshift.io/deployment-config.name: rails
+      openshift.io/deployment.name: rails-20
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: null
+    generateName: rails-20-
+    labels:
+      app: rails
+      deployment: rails-20
+      deploymentconfig: rails
+  spec:
+    containers:
+    - env:
+      - name: SECRET_KEY_BASE
+        value: KkFSwMOyjHP8R1Rle4CKhagG2cB55EgYXnD8vslekirpjxQsaOyTLBltxfknACAhPw1MbCcpYlQKj8bN0ewh6BkG1M21KCxcQTKk3SIHJKLU2y6toh3eON5b2vQlv7RM
+      - name: RAILS_ENV
+        value: production
+      - name: RAILS_SERVE_STATIC_FILES
+        value: "1"
+      - name: RAILS_DB_NAME
+        value: cryptopus_production
+      - name: RAILS_DB_HOST
+        value: mysql.cryptopus.svc.cluster.local
+      - name: RAILS_DB_USERNAME
+        value: arqqYdH8GMwjwpVN
+      - name: RAILS_DB_PASSWORD
+        value: 7jSANDSlx4fLXC2i
+      - name: RAILS_DB_ADAPTER
+        value: mysql2
+      - name: RAILS_HOST_NAME
+        value: cryptopus.ose3.puzzle.ch
+      - name: RAILS_AIRBRAKE_HOST
+        value: errbit.puzzle.ch
+      - name: RAILS_AIRBRAKE_API_KEY
+        value: 804b69080121a8d06cbe7b493fa6ca0d
+      image: 172.30.1.1:5000/cryptopus/rails@sha256:4e8a5ac5c6c1ab3d9374b986b96b7385aa029455238a49e348edb37e7fd08ff0
+      imagePullPolicy: Always
+      name: rails
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      resources: {}
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+          - SYS_CHROOT
+        privileged: false
+        runAsUser: 1001380000
+        seLinuxOptions:
+          level: s0:c37,c24
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-96e15
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    host: constitutioni.rz.puzzle.ch
+    imagePullSecrets:
+    - name: default-dockercfg-g25ei
+    nodeName: constitutioni.rz.puzzle.ch
+    restartPolicy: Always
+    securityContext:
+      fsGroup: 1001380000
+      seLinuxOptions:
+        level: s0:c37,c24
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: default-token-96e15
+      secret:
+        secretName: default-token-96e15
+  status:
+    phase: Pending
