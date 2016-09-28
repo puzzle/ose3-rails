@@ -65,6 +65,10 @@ RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
 
 # SOURCE / DEPENDENCIES
 
+# Workaround for base image: Do not install gems from development and test environments
+# See https://github.com/sclorg/rhscl-dockerfiles/issues/26
+ENV BUNDLE_WITHOUT=development:test
+
 # (I): Add Gemfile, install the needed gems.
 # Doing this before adding the rest of the source ensures that as long
 # as neither Gemfile nor Gemfile.lock change, Docker will keep the installed
