@@ -1,6 +1,15 @@
 FROM centos/ruby-22-centos7
 
 # ABOUT
+# A Rails/webpack frontend image.
+#
+# If a frontend/package.json is found,
+#
+#   * node and npm will get installed
+#   * the dependencies from said package.json are installed
+#   * the frontend is built via `npm build TODO`
+#   * the assets at frontend/dist are moved to public/
+#
 # This image is based on a S2I image but used in standard 'docker build'
 # fashion. This is done by triggering $STI_SCRIPTS_PATH/assemble while
 # building.
@@ -63,30 +72,44 @@ RUN chgrp -R 0 ./ && \
 RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
     chmod +x $STI_SCRIPTS_PATH/run-httpd.sh
 
-# SOURCE / DEPENDENCIES
-
 # Workaround for base image: Do not install gems from development and test environments
 # See https://github.com/sclorg/rhscl-dockerfiles/issues/26
 ENV BUNDLE_WITHOUT=development:test
 
-# (I): Add Gemfile, install the needed gems.
+# DEPENDENCIES
+# Add dependency declarations only, install dependencies.
 # Doing this before adding the rest of the source ensures that as long
 # as neither Gemfile nor Gemfile.lock change, Docker will keep the installed
 # bundle in the cache.
+
+ONBUILD USER root
+
+# NPM: Add package.json, typings.json if present, install node if needed
+ONBUILD ADD ./frontend/package.json ./frontend/typings.json /tmp/src/frontend/
+ONBUILD RUN $STI_SCRIPTS_PATH/install-node.sh
+ONBUILD RUN chown -R 1001 /tmp/src/
+ONBUILD USER 1001
+# NPM: Install packages
+ONBUILD RUN $STI_SCRIPTS_PATH/install-npm-packages.sh
+
+# Ruby: Add Gemfile, install the needed gems.
 ONBUILD USER root
 ONBUILD ADD ./Gemfile ./Gemfile.lock /tmp/src/
 ONBUILD RUN chown -R 1001 /tmp/src/
 ONBUILD USER 1001
 ONBUILD RUN DISABLE_ASSET_COMPILATION=true $STI_SCRIPTS_PATH/assemble
 
-# (II): Add the rest of the source.
+# SOURCES
+# Add the rest of the source.
 ONBUILD USER root
 ONBUILD ADD . /tmp/src/
 ONBUILD RUN chown -R 1001 /tmp/src/
 ONBUILD USER 1001
-# This time, `assemble` will take advantage of the gems cached in (I),
+# Ruby: This time, `assemble` will take advantage of the cached gems,
 # speeding up most builds.
 ONBUILD RUN $STI_SCRIPTS_PATH/assemble
+# NPM: Build frontend.
+ONBUILD RUN $STI_SCRIPTS_PATH/build-frontend.sh
 
 USER 1001
 
