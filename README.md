@@ -40,3 +40,7 @@ spec:
         name: 'ose3-rails:latest'
       forcePull: true
 ```
+
+## Development
+
+See [Development](DEVELOPMENT.md)
