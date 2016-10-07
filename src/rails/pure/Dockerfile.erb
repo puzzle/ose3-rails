@@ -1,0 +1,16 @@
+<%= partial('base_image') %>
+
+# ABOUT
+# A Rails image.
+#
+# This image is based on a S2I image but used in standard 'docker build'
+# fashion. This is done by triggering $STI_SCRIPTS_PATH/assemble while
+# building.
+
+<%= partial('apache_passenger_rails') %>
+
+<%= partial('install_gems') %>
+<%= partial('add_source') %>
+<%= partial('assemble_ruby') %>
+
+<%= partial('entrypoint') %>

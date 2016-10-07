@@ -1,0 +1,6 @@
+# SOURCES
+# Add the rest of the source.
+ONBUILD USER root
+ONBUILD ADD . /tmp/src/
+ONBUILD RUN chown -R 1001 /tmp/src/
+ONBUILD USER 1001

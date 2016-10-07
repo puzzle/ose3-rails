@@ -1,46 +1,58 @@
-# ose3-rails
+# Dockerfiles for OpenShift 3 Rails deployments
 
-Openshift-dockerimage for Ruby on Rails applications with Apache2 and mod_passenger.
+## The Dockerfiles
 
-This image is based on centos/ruby-22-centos7: https://github.com/sclorg/s2i-ruby-container/tree/master/2.2
+_dist_ contains ready-to-build dockerfiles.
 
-## Preparations
+* _rails/pure_ An Apache/Passenger/Rails image
+* _rails/with-npm_ An Apache/Passenger/Rails/NPM image
 
-Go to the project root. Decide which project name to use
+## Using
 
-project=<PROJECT-NAME>
+### Locally
 
-Create an OpenShift project and apply the JSON template to it:
+Change to the desired Dockerfiles' containing folder and `docker build .`
 
-```
-oc new-project $project
-oc process -f ose3_project_templates/build_base_image.json | oc create -n $project -f -
-```
+### On OpenShift
 
-This will create all necessary resources and policyBindings in order for other projects to use its built images. It will also automatically start building the image, which can then be referenced by your other projects that want to use it.
+Sample `spec` section of your `BuildConfig`:
 
+    source:
+      type: "Git"
+      git: 
+        uri: "<this repos' uri>"
+        ref: "master"
+      contextDir: "<e.g. dist/rails/pure>" 
 
-## Usage
+## Developing
 
-To use this generic image you simply have to create a Dockerfile in the wanted project and write the following line into it:
+Dockerfiles and build contexts under `dist` are generated from the source files at `src`.
 
-`FROM puzzle/ose3-rails`
+### Building dist
 
-and then reference the image in your BuildConfig spec:
+Use ruby 2.3.1 (although everything > 2 should work), rvm will do so for you automatically.
 
-```
-spec:
-...
-  strategy:
-    type: Docker
-    dockerStrategy:
-      from:
-        kind: ImageStreamTag
-        namespace: <PROJECT-NAME>
-        name: 'ose3-rails:latest'
-      forcePull: true
-```
+    bundle install
+    rake build
+    
+#### Source structure
 
-## Development
+`src` contains ERB templates to build the Dockerfiles and the necessary files for their build contexts.
 
-See [Development](DEVELOPMENT.md)
+    src
+    ├── _build
+    │   └── (The build script)
+    └── rails (Collection of images)
+        ├── _context (Contains files and folders to copy to build context)
+        ├── _partials (Contains partials)
+        ├── pure (An image)
+        │   ├── Dockerfile.erb
+        │   └── README.md.erb
+        └── with-npm (Another image)
+            ├── _context (with-npm specific build context contents)
+
+When building `with-npm`
+
+* `dist/rails/with-npm/Dockerfile` is generated from `src/rails/with-npm/Dockerfile.erb`
+  The template has access to all partials in `with-npm/_partials` and all parent folders (`rails/_partials` in this case). A partial `_foo.erb` is rendered by doing `<%= partial("foo") %>`. `with-npm/_partials/_foo.erb` will take precedence over `rails/_partials/_foo.erb`.
+* All necessary files for the docker build context (store them in the `_context` folders) are copied to `dist/rails/with-npm/`. A file `with-npm/foofile` will override `rails/foofile`.
