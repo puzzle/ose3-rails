@@ -31,7 +31,9 @@ Dockerfiles and build contexts under `dist` are generated from the source files 
 ### Building dist
 
 Use ruby 2.3.1 (although everything > 2 should work), rvm will do so for you automatically.
-
+ 
+    rvm use 2.3.1
+    gem install bundler
     bundle install
     rake build
     
