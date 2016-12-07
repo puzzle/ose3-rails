@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -ex
+
+echo "Artifacts:"
+ls -al /tmp/
+if [ -e /tmp/artifacts ]; then
+  ls -al /tmp/artifacts
+fi
+
+# Restore build artifacts
+if [ "$(ls /tmp/artifacts/bundle 2>/dev/null)" ]; then
+    echo "Restoring bundle from artifacts..."
+    mv /tmp/artifacts/bundle .
+fi
+
+# Call original builder script
+$STI_SCRIPTS_PATH/assemble_base
+
+# Remember build artifacts
+echo "Creating artifacts_out directory..."
+rm -rf /tmp/artifacts_out
+mkdir -p /tmp/artifacts_out
+
+echo "Linking bundle to artifacts..."
+ln -s /opt/app-root/src/bundle /tmp/artifacts_out/bundle

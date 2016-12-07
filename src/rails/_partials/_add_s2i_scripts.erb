@@ -1,0 +1,8 @@
+# Add S2I scripts.
+USER root
+
+RUN mv $STI_SCRIPTS_PATH/assemble $STI_SCRIPTS_PATH/assemble_base
+RUN mv $STI_SCRIPTS_PATH/run $STI_SCRIPTS_PATH/run_base
+ADD /s2i/* $STI_SCRIPTS_PATH/
+
+RUN chmod ugo+x $STI_SCRIPTS_PATH/*

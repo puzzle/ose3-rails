@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -ex
+
+$STI_SCRIPTS_PATH/install-npm-packages.sh
+$STI_SCRIPTS_PATH/build-frontend.sh

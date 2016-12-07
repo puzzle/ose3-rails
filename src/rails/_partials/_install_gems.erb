@@ -1,6 +1,0 @@
-# Add Gemfile only, install gems (Caching)
-ONBUILD USER root
-ONBUILD ADD ./Gemfile ./Gemfile.lock /tmp/src/
-ONBUILD RUN chown -R 1001 /tmp/src/
-ONBUILD USER 1001
-ONBUILD RUN DISABLE_ASSET_COMPILATION=true $STI_SCRIPTS_PATH/assemble

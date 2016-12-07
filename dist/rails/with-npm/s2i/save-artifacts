@@ -1,0 +1,6 @@
+#!/bin/bash
+
+dir=$(dirname $0)
+
+cd /tmp/artifacts_out
+tar cf - --dereference *

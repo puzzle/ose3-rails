@@ -7,10 +7,6 @@
 #   * the dependencies from said package.json are installed
 #   * the frontend is built via `npm build TODO`
 #   * the assets at frontend/dist are moved to public/
-#
-# This image is based on a S2I image but used in standard 'docker build'
-# fashion. This is done by triggering $STI_SCRIPTS_PATH/assemble while
-# building.
 
 <%= partial('apache_passenger_rails') %>
 
@@ -23,18 +19,8 @@ RUN yum install -y centos-release-scl-rh && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y
 
-# Add package.json, typings.json and so on, inall npm packages
-ONBUILD USER root
-ONBUILD ADD ./frontend/*.json /tmp/src/frontend/
-ONBUILD RUN chown -R 1001 /tmp/src/
-ONBUILD USER 1001
-ONBUILD RUN $STI_SCRIPTS_PATH/install-npm-packages.sh
+<%= partial('add_s2i_scripts') %>
 
-<%= partial('install_gems') %>
-<%= partial('add_source') %>
-<%= partial('assemble_ruby') %>
-
-# Build frontend.
-ONBUILD RUN $STI_SCRIPTS_PATH/build-frontend.sh
+USER 1001
 
 <%= partial('entrypoint') %>

@@ -1,5 +1,4 @@
 FROM centos/ruby-22-centos7
-
 # ABOUT
 # A Rails/webpack frontend image.
 #
@@ -7,10 +6,6 @@ FROM centos/ruby-22-centos7
 #   * the dependencies from said package.json are installed
 #   * the frontend is built via `npm build TODO`
 #   * the assets at frontend/dist are moved to public/
-#
-# This image is based on a S2I image but used in standard 'docker build'
-# fashion. This is done by triggering $STI_SCRIPTS_PATH/assemble while
-# building.
 
 USER root
 
@@ -74,7 +69,6 @@ RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
 # See https://github.com/sclorg/rhscl-dockerfiles/issues/26
 ENV BUNDLE_WITHOUT=development:test
 
-
 USER root
 # Install node.
 RUN yum install -y centos-release-scl-rh && \
@@ -84,33 +78,16 @@ RUN yum install -y centos-release-scl-rh && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y
 
-# Add package.json, typings.json and so on, inall npm packages
-ONBUILD USER root
-ONBUILD ADD ./frontend/*.json /tmp/src/frontend/
-ONBUILD RUN chown -R 1001 /tmp/src/
-ONBUILD USER 1001
-ONBUILD RUN $STI_SCRIPTS_PATH/install-npm-packages.sh
+# Add S2I scripts.
+USER root
 
-# Add Gemfile only, install gems (Caching)
-ONBUILD USER root
-ONBUILD ADD ./Gemfile ./Gemfile.lock /tmp/src/
-ONBUILD RUN chown -R 1001 /tmp/src/
-ONBUILD USER 1001
-ONBUILD RUN DISABLE_ASSET_COMPILATION=true $STI_SCRIPTS_PATH/assemble
+RUN mv $STI_SCRIPTS_PATH/assemble $STI_SCRIPTS_PATH/assemble_base
+RUN mv $STI_SCRIPTS_PATH/run $STI_SCRIPTS_PATH/run_base
+ADD /s2i/* $STI_SCRIPTS_PATH/
 
-# SOURCES
-# Add the rest of the source.
-ONBUILD USER root
-ONBUILD ADD . /tmp/src/
-ONBUILD RUN chown -R 1001 /tmp/src/
-ONBUILD USER 1001
+RUN chmod ugo+x $STI_SCRIPTS_PATH/*
 
-# Ruby: This time, `assemble` will take advantage of the cached gems,
-# speeding up most builds.
-ONBUILD RUN $STI_SCRIPTS_PATH/assemble
-
-# Build frontend.
-ONBUILD RUN $STI_SCRIPTS_PATH/build-frontend.sh
+USER 1001
 
 USER 1001
 

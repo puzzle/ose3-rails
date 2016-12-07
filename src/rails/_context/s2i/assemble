@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -ex
+
+dir=$(dirname $0)
+
+$dir/assemble_rails
