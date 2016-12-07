@@ -1,12 +1,23 @@
 FROM centos/ruby-22-centos7
-LABEL io.k8s.description="Base Image for Rails" \
-      io.k8s.display-name="pitc-rails-bi" \
-      io.openshift.expose-services="8080:http" \
-      io.openshift.tags="builder,ruby,ruby22,httpd"
+      
+      
+      
 
 # ABOUT
-# A Rails image to be used with OpenShift S2I.
+# A Rails image.
+#
+# This image is based on a S2I image but used in standard 'docker build'
+# fashion. This is done by triggering $STI_SCRIPTS_PATH/assemble while
+# building.
 
+USER root
+
+# SLOW STUFF
+# Slow operations, kept at top of the Dockerfile so they're cached for most changes.
+
+# Install Sphinx SE from EPEL. 
+RUN yum localinstall -y http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm && \
+    yum clean all
 USER root
 
 # SLOW STUFF

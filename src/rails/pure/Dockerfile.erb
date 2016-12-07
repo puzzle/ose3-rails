@@ -1,5 +1,10 @@
 <%= partial('base_image') %>
 
+LABEL io.k8s.description="Base Image for Rails" \
+      io.k8s.display-name="pitc-rails-bi" \
+      io.openshift.expose-services="8080:http" \
+      io.openshift.tags="builder,ruby,ruby22,httpd"
+
 # ABOUT
 # A Rails image to be used with OpenShift S2I.
 

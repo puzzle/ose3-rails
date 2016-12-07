@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -ex
+
+# Call original builder script
+$STI_SCRIPTS_PATH/assemble_base

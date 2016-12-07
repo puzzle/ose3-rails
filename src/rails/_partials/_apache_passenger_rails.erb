@@ -1,10 +1,5 @@
 USER root
 
-LABEL io.k8s.description="Platform for building and running Rails Application within Apache Passenger" \
-      io.k8s.display-name="Apache 2.4 with Ruby 2.2" \
-      io.openshift.expose-services="8080:http" \
-      io.openshift.tags="builder,ruby,ruby22,httpd"
-
 # SLOW STUFF
 # Slow operations, kept at top of the Dockerfile so they're cached for most changes.
 
