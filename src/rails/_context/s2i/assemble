@@ -4,4 +4,18 @@ set -ex
 
 dir=$(dirname $0)
 
+echo 'yaklasdfasdj'
+
+ls
+
+if [ ! -f /tmp/src/.s2i/pre_assemble ]; then
+  echo 'pre assembleeeeee'
+  /tmp/src/.s2i/pre_assemble
+fi
+
 $dir/assemble_rails
+
+if [ ! -f /tmp/src/.s2i/post_assemble ]; then
+  echo 'post assembleeeeee'
+  /tmp/src/.s2i/post_assemble
+fi
