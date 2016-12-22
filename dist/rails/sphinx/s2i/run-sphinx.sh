@@ -11,4 +11,4 @@ function scheduled_indexing {
 bundle exec rake ts:configure
 
 scheduled_indexing & \
-/usr/bin/searchd --config ./config/production.sphinx.conf --nodetach &
+/usr/bin/searchd --config ./config/production.sphinx.conf --nodetach
