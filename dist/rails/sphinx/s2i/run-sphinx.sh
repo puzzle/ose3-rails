@@ -8,5 +8,7 @@ function scheduled_indexing {
   done
 }
 
+rake ts:configure
+
 scheduled_indexing & \
 /usr/bin/searchd --config ./config/production.sphinx.conf --nodetach &
