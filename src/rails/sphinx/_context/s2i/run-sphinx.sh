@@ -4,7 +4,7 @@ function scheduled_indexing {
   while :
   do
     /usr/bin/indexer --config config/production.sphinx.conf --all --rotate
-    sleep 10
+    sleep 3600
   done
 }
 
