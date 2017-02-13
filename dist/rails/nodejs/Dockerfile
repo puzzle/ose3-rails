@@ -2,9 +2,7 @@ FROM centos/ruby-22-centos7
 # ABOUT
 # A Rails/webpack frontend image.
 #
-#   * node and npm will get installed
-#   * the dependencies from said package.json are installed
-#   * the frontend is built via `npm build TODO`
+#   * nodejs, npm and yarn will get installed
 #   * the assets at frontend/dist are moved to public/
 
 USER root
@@ -72,6 +70,13 @@ RUN yum install -y centos-release-scl-rh && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y
+
+# install yarn
+RUN cd /opt && \
+    mkdir yarn && \
+    cd yarn && \
+    wget https://yarnpkg.com/latest.tar.gz && \
+    tar zvxf latest.tar.gz
 
 # Add S2I scripts.
 USER root

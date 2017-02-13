@@ -5,4 +5,4 @@ set -ex
 dir=$(dirname $0)
 
 $dir/assemble_rails
-$dir/assemble_npm
+$dir/assemble_frontend

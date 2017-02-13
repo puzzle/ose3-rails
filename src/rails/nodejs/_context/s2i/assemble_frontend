@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -ex
+
+app_root=/opt/app-root/src
+frontend_dir=$app_root/frontend
+
+export PATH="/opt/yarn/dist/bin:${PATH}"
+cd $frontend_dir
+
+echo "Executing project's frontend build script ..."
+scl enable rh-nodejs4 "$frontend_dir/config/build/build_frontend.sh"
+
+echo "Moving compiled sources to rails public folder ..."
+cd $app_root
+mkdir -p public
+mv frontend/dist/* public
