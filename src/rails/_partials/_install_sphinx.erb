@@ -1,8 +1,4 @@
 USER root
 
-# SLOW STUFF
-# Slow operations, kept at top of the Dockerfile so they're cached for most changes.
-
-# Install Sphinx SE from EPEL. 
-RUN yum localinstall -y http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm && \
-    yum clean all
+ADD /contrib/bin/install-sphinx.sh $STI_SCRIPTS_PATH
+RUN scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-sphinx.sh 

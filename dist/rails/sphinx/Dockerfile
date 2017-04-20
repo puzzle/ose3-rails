@@ -1,7 +1,5 @@
 FROM centos/ruby-22-centos7
-      
-      
-      
+
 
 # ABOUT
 # A Rails image.
@@ -12,12 +10,9 @@ FROM centos/ruby-22-centos7
 
 USER root
 
-# SLOW STUFF
-# Slow operations, kept at top of the Dockerfile so they're cached for most changes.
+ADD /contrib/bin/install-sphinx.sh $STI_SCRIPTS_PATH
+RUN scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-sphinx.sh 
 
-# Install Sphinx SE from EPEL. 
-RUN yum localinstall -y http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm && \
-    yum clean all
 USER root
 
 # SLOW STUFF
@@ -75,6 +70,7 @@ RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
 # See https://github.com/sclorg/rhscl-dockerfiles/issues/26
 ENV BUNDLE_WITHOUT=development:test
 
+
 # Add S2I scripts.
 USER root
 
@@ -83,6 +79,7 @@ RUN mv $STI_SCRIPTS_PATH/run $STI_SCRIPTS_PATH/run_base
 ADD /s2i/* $STI_SCRIPTS_PATH/
 
 RUN chmod ugo+x $STI_SCRIPTS_PATH/*
+
 
 USER 1001
 
