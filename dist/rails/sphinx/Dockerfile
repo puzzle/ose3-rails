@@ -20,7 +20,7 @@ USER root
 
 # Install Apache httpd24.
 RUN yum update -y && \
-    INSTALL_PKGS="httpd httpd-devel apr-devel apr-util-devel sqlite3" && \
+    INSTALL_PKGS="httpd httpd-devel apr-devel apr-util-devel sqlite3 ImageMagick-devel" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     yum clean all -y
 
