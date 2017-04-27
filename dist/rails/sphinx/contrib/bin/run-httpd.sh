@@ -8,8 +8,10 @@ mkfifo -m 777 /tmp/log_pipe_rails
 
 cat < /tmp/log_pipe_apache 2>&1 | sed 's/^/apache: /' &
 
-rm -rf /opt/app-root/src/log/production.log
-ln -s /tmp/log_pipe_rails /opt/app-root/src/log/production.log
+log_path=/opt/app-root/src/log/${RAILS_ENV:-production}.log
+rm -rf $log_path
+mkdir -p /opt/app-root/src/log
+ln -s /tmp/log_pipe_rails $log_path
 # Loop forces reopening of file after EOFs
 ( while true; do
       cat < /tmp/log_pipe_rails | sed 's/^/rails: /'
