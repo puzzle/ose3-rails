@@ -4,11 +4,7 @@ FROM centos/ruby-22-centos7
       
 
 # ABOUT
-# A Rails image.
-#
-# This image is based on a S2I image but used in standard 'docker build'
-# fashion. This is done by triggering $STI_SCRIPTS_PATH/assemble while
-# building.
+# A Rails image to be used with OpenShift S2I.
 
 USER root
 

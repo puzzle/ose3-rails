@@ -1,6 +1,6 @@
 FROM centos/ruby-22-centos7
 # ABOUT
-# A Rails/webpack frontend image.
+# A Rails/webpack frontend image to be used with S2I.
 #
 #   * nodejs, npm and yarn will get installed
 #   * the assets at frontend/dist are moved to public/
