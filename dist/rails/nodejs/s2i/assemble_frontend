@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 app_root=/opt/app-root/src
 frontend_dir=$app_root/frontend
