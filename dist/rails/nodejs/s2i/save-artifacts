@@ -3,4 +3,8 @@
 dir=$(dirname $0)
 
 cd /tmp/artifacts_out
-tar cf - --dereference *
+
+# Move all toplevel links' targets here.
+find . -maxdepth 1 -type l | xargs -n1 -I % bash -c 'source=$(readlink %); rm %; mv $source %'
+
+tar cf -  *
