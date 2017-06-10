@@ -9,14 +9,21 @@ mkfifo -m 777 /tmp/log_pipe_rails
 cat < /tmp/log_pipe_apache 2>&1 | sed 's/^/apache: /' &
 
 log_path=/opt/app-root/src/log/${RAILS_ENV:-production}.log
-rm -rf $log_path
-mkdir -p /opt/app-root/src/log
-ln -s /tmp/log_pipe_rails $log_path
-# Loop forces reopening of file after EOFs
-( while true; do
-      cat < /tmp/log_pipe_rails | sed 's/^/rails: /'
-      sleep 1
-  done ) &
+
+if [ "$LEAVE_RAILS_LOG_FILE_IN_PLACE" == "1" ]; then
+    mkdir -p /opt/app-root/src/log
+    touch $log_path
+    tail -f $log_path | sed 's/^/rails: /' &
+else
+    rm -rf $log_path
+    mkdir -p /opt/app-root/src/log
+    ln -s /tmp/log_pipe_rails $log_path
+    # Loop forces reopening of file after EOFs
+    ( while true; do
+          cat < /tmp/log_pipe_rails | sed 's/^/rails: /'
+          sleep 1
+      done ) &
+fi
 
 # Use libmapuid to map ose generate uid for passenger to correct passwd entry
 # otherwise the following error occurs:
