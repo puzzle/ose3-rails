@@ -3,6 +3,7 @@
 rm -rf $APACHE_PID_FILE
 
 # Set up log pipes in order to join all logs' outputs to stdout
+rm -rf /tmp/log_pipe_apache /tmp/log_pipe_rails
 mkfifo -m 777 /tmp/log_pipe_apache
 mkfifo -m 777 /tmp/log_pipe_rails
 
