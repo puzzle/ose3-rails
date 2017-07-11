@@ -1,0 +1,1 @@
+../../../sphinx/_context/s2i/run-sphinx.sh
