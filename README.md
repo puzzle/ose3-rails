@@ -16,6 +16,7 @@ all these images are built on dockerhub: https://hub.docker.com/u/puzzle/
 ### Tags
 
 ruby22, ruby24: stable versions
+
 latest, devel: development versions, don't use in production
 
 ## Using
