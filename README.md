@@ -5,7 +5,18 @@
 _dist_ contains ready-to-build dockerfiles.
 
 * _rails/pure_ An Apache/Passenger/Rails image
-* _rails/with-npm_ An Apache/Passenger/Rails/NPM image
+* _rails/nodejs_ An Apache/Passenger/Rails/nodejs image
+* _rails/sphinx_ An Apache/Passenger/Rails/sphinx image
+* _rails/sphinx-transifex_ An Apache/Passenger/Rails/sphinx/transifex image
+
+## Builds on Dockerhub
+
+all these images are built on dockerhub: https://hub.docker.com/u/puzzle/
+
+### Tags
+
+ruby22, ruby24: stable versions
+latest, devel: development versions, don't use in production
 
 ## Using
 
@@ -50,11 +61,11 @@ Use ruby 2.3.1 (although everything > 2 should work), rvm will do so for you aut
         ├── pure (An image)
         │   ├── Dockerfile.erb
         │   └── README.md.erb
-        └── with-npm (Another image)
-            ├── _context (with-npm specific build context contents)
+        └── nodejs (Another image)
+            ├── _context (nodejs specific build context contents)
 
-When building `with-npm`
+When building `nodejs`
 
-* `dist/rails/with-npm/Dockerfile` is generated from `src/rails/with-npm/Dockerfile.erb`
-  The template has access to all partials in `with-npm/_partials` and all parent folders (`rails/_partials` in this case). A partial `_foo.erb` is rendered by doing `<%= partial("foo") %>`. `with-npm/_partials/_foo.erb` will take precedence over `rails/_partials/_foo.erb`.
-* All necessary files for the docker build context (store them in the `_context` folders) are copied to `dist/rails/with-npm/`. A file `with-npm/foofile` will override `rails/foofile`.
+* `dist/rails/nodejs/Dockerfile` is generated from `src/rails/nodejs/Dockerfile.erb`
+  The template has access to all partials in `nodejs/_partials` and all parent folders (`rails/_partials` in this case). A partial `_foo.erb` is rendered by doing `<%= partial("foo") %>`. `nodejs/_partials/_foo.erb` will take precedence over `rails/_partials/_foo.erb`.
+* All necessary files for the docker build context (store them in the `_context` folders) are copied to `dist/rails/nodejs/`. A file `nodejs/foofile` will override `rails/foofile`.
