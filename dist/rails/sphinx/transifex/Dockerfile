@@ -1,4 +1,4 @@
-FROM puzzle/ose3-rails-sphinx
+FROM puzzle/ose3-rails-sphinx:ruby22
 
       
       
