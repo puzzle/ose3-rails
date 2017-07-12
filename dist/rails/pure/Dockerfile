@@ -16,6 +16,7 @@ ENV RUBYGEMS_VERSION 2.6.12
 
 RUN \
      /bin/bash -c "yum -y remove rh-ruby24*" \
+     && sed -i 's/\<rh-ruby24\>//g' /opt/app-root/etc/scl_enable \
      && yum -y groupinstall --setopt=tsflags=nodocs 'Development Tools' \
      && yum -y update \
      && yum -y install --setopt=tsflags=nodocs \
@@ -69,7 +70,7 @@ RUN mkdir -p /opt/app-root/httpd/pid
 ### Passenger
 # Add a symlink to the installed passenger gem
 # so we do not depend on the minor version installed.
-RUN ln -s /usr/local/bundle/gems/passenger-5.* /opt/passenger
+RUN ln -s /usr/local/lib/ruby/gems/*/gems/passenger-5.* /opt/passenger
 
 ### Rails
 ENV RAILS_ENV=production \

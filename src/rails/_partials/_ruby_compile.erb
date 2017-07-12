@@ -6,6 +6,7 @@ ENV RUBYGEMS_VERSION 2.6.12
 
 RUN \
      /bin/bash -c "yum -y remove rh-ruby24*" \
+     && sed -i 's/\<rh-ruby24\>//g' /opt/app-root/etc/scl_enable \
      && yum -y groupinstall --setopt=tsflags=nodocs 'Development Tools' \
      && yum -y update \
      && yum -y install --setopt=tsflags=nodocs \
