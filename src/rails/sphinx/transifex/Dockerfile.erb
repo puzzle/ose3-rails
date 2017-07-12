@@ -1,0 +1,8 @@
+FROM puzzle/ose3-rails-sphinx
+
+<%#LABEL io.k8s.description="Base Image for Rails and Sphinx containers including transifex client" \%>
+      <%#io.k8s.display-name="pitc-rails-sphinx-transifex-bi" \%>
+      <%#io.openshift.expose-services="8080:http,9312:sphinx" \%>
+      <%#io.openshift.tags="builder,ruby,ruby22,httpd,sphinx,transifex"%>
+
+<%= partial('install_transifex') %>
