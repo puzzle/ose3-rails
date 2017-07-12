@@ -39,7 +39,7 @@ RUN mkdir -p /opt/app-root/httpd/pid
 ### Passenger
 # Add a symlink to the installed passenger gem
 # so we do not depend on the minor version installed.
-RUN ln -s /usr/local/share/gems/gems/passenger-5.* /opt/passenger
+RUN ln -s /usr/local/bundle/gems/passenger-5.* /opt/passenger
 
 ### Rails
 ENV RAILS_ENV=production \
