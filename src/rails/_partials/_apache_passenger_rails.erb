@@ -11,7 +11,6 @@ RUN yum update -y && \
 
 # Install passenger.
 RUN /bin/bash -c "gem install passenger --no-ri --no-rdoc && \
-    export PATH=$PATH:/opt/rh/rh-ruby22/root/usr/local/bin && \
     passenger-install-apache2-module --auto --languages ruby && \
     passenger-config validate-install " # bogus comment to invalidate cache
 
@@ -28,7 +27,7 @@ RUN mkdir -p /opt/app-root/httpd/pid
 ### Passenger
 # Add a symlink to the installed passenger gem
 # so we do not depend on the minor version installed.
-RUN ln -s /opt/rh/rh-ruby22/root/usr/local/share/gems/gems/passenger-5.* /opt/passenger
+RUN ln -s /usr/local/share/gems/gems/passenger-5.* /opt/passenger
 
 ### Rails
 ENV RAILS_ENV=production \

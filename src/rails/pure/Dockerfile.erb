@@ -8,6 +8,7 @@ LABEL io.k8s.description="Base Image for Rails" \
 # ABOUT
 # A Rails image to be used with OpenShift S2I.
 
+<%= partial('ruby_compile') %>
 <%= partial('apache_passenger_rails') %>
 
 <%= partial('add_s2i_scripts') %>
