@@ -1,4 +1,5 @@
-FROM centos/ruby-22-centos7
+FROM centos/ruby-24-centos7
+
       
       
       

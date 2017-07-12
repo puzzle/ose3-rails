@@ -1,4 +1,5 @@
-FROM centos/ruby-22-centos7
+FROM centos/ruby-24-centos7
+
 LABEL io.k8s.description="Base Image for Rails" \
       io.k8s.display-name="pitc-rails-bi" \
       io.openshift.expose-services="8080:http" \
@@ -14,7 +15,7 @@ ENV BUNDLER_VERSION 1.15.0
 ENV RUBYGEMS_VERSION 2.6.12
 
 RUN \
-     /bin/bash -c "yum -y remove rh-ruby22*" \
+     /bin/bash -c "yum -y remove rh-ruby24*" \
      && yum -y groupinstall --setopt=tsflags=nodocs 'Development Tools' \
      && yum -y update \
      && yum -y install --setopt=tsflags=nodocs \
@@ -39,17 +40,6 @@ RUN \
      && gem update --system "$RUBYGEMS_VERSION" \
      && gem install bundler --version "$BUNDLER_VERSION" \
      && yum clean all
-
-ENV GEM_HOME /usr/local/bundle
-ENV BUNDLE_PATH="$GEM_HOME" \
-    BUNDLE_BIN="$GEM_HOME/bin" \
-    BUNDLE_SILENCE_ROOT_WARNING=1 \
-    BUNDLE_APP_CONFIG="$GEM_HOME"
-ENV PATH $BUNDLE_BIN:/usr/local/sbin:/usr/local/bin:/usr/bin
-
-RUN \
-     mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
-     && chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
 USER root
 
 # SLOW STUFF
