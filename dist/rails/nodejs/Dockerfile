@@ -71,12 +71,9 @@ RUN yum install -y centos-release-scl-rh && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y
 
-# install yarn
-RUN cd /opt && \
-    mkdir yarn && \
-    cd yarn && \
-    wget https://yarnpkg.com/latest.tar.gz && \
-    tar zvxf latest.tar.gz
+# install yarn (install without dep check since nodejs is installed by scl)
+RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo && \
+    rpm -Uvh --nodeps $(repoquery --location yarn)
 
 # Add S2I scripts.
 USER root

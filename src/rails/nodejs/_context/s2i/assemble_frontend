@@ -5,7 +5,6 @@ set -e
 app_root=/opt/app-root/src
 frontend_dir=$app_root/frontend
 
-export PATH="/opt/yarn/dist/bin:${PATH}"
 cd $frontend_dir
 
 echo "Executing project's frontend build script ..."
