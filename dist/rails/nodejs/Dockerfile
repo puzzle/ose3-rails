@@ -63,17 +63,20 @@ RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
 ENV BUNDLE_WITHOUT=development:test
 
 USER root
-# Install node.
-RUN yum install -y centos-release-scl-rh && \
-    INSTALL_PKGS="rh-nodejs4 rh-nodejs4-npm rh-nodejs4-nodejs-nodemon nss_wrapper" && \
-    ln -s /usr/lib/node_modules/nodemon/bin/nodemon.js /usr/bin/nodemon && \
-    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
-    rpm -V $INSTALL_PKGS && \
-    yum clean all -y
 
-# install yarn (install without dep check since nodejs is installed by scl)
+# remove nodejs provided by centos ruby22 base image
+RUN yum remove -y nodejs010*
+RUN sed -e "s/nodejs010//g" -i /opt/app-root/etc/scl_enable 
+
+# Install node
+ADD /contrib/bin/install-nodejs.sh $STI_SCRIPTS_PATH
+RUN scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs.sh 
+
+# install yarn (install without dep check since nodejs is installed by tgz)
 RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo && \
     rpm -Uvh --nodeps $(repoquery --location yarn)
+
+ENV PATH="/opt/nodejs/bin":${PATH}"
 
 # Add S2I scripts.
 USER root
