@@ -76,7 +76,7 @@ RUN scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs.sh
 RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo && \
     rpm -Uvh --nodeps $(repoquery --location yarn)
 
-ENV PATH="/opt/nodejs/bin":${PATH}"
+ENV PATH="/opt/nodejs/bin:${PATH}"
 
 # Add S2I scripts.
 USER root
