@@ -12,9 +12,10 @@ USER root
 # SLOW STUFF
 # Slow operations, kept at top of the Dockerfile so they're cached for most changes.
 
-# Install Apache httpd24.
-RUN yum update -y && \
-    INSTALL_PKGS="httpd httpd-devel apr-devel apr-util-devel sqlite3 ImageMagick-devel" && \
+# Install Apache httpd24 and mod_xsendfile.
+RUN yum -y install epel-release && \
+    yum update -y && \
+    INSTALL_PKGS="httpd httpd-devel mod_xsendfile apr-devel apr-util-devel sqlite3 ImageMagick-devel" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     yum clean all -y
 
