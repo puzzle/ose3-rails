@@ -9,13 +9,18 @@ _dist_ contains ready-to-build dockerfiles.
 * _rails/sphinx_ An Apache/Passenger/Rails/sphinx image
 * _rails/sphinx-transifex_ An Apache/Passenger/Rails/sphinx/transifex image
 
-## Builds on Dockerhub
+## Dockerhub
 
-all these images are built on dockerhub: https://hub.docker.com/u/puzzle/
+All these images are built on [Dockerhub](https://hub.docker.com/u/puzzle/).
 
-### Tags
+### About the tags
 
-ruby22, ruby24: stable versions
+ruby22, ruby24: stable versions, built from the `stable` branch
+
+* _dist/rails/pure/Dockerfile_ is built to [puzzle/ose3-rails:ruby22*](https://hub.docker.com/r/puzzle/ose3-rails)
+* _dist/rails/sphinx/Dockerfile_ (includes Sphinx 2.2) is built to [puzzle/ose3-rails-sphinx:ruby22*](https://hub.docker.com/r/puzzle/ose3-rails-sphinx/tags/)
+* _dist/rails/sphinx/transifex/Dockerfile_ (includes Sphinx transifex client 0.12) is built to [puzzle/ose3-rails-sphinx:ruby22*](https://hub.docker.com/r/puzzle/ose3-rails-sphinx/tags/)
+* _dist/rails/nodejs/Dockerfile_ (includes node) is built to [puzzle/ose3-rails-nodejs:ruby22*](https://hub.docker.com/r/puzzle/ose3-rails-nodejs/tags/)
 
 latest, devel: development versions, don't use in production
 
