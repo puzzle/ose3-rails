@@ -39,6 +39,7 @@ RUN mkdir -p /opt/app-root/httpd/pid
 # Add a symlink to the installed passenger gem
 # so we do not depend on the minor version installed.
 RUN ln -s /opt/rh/rh-ruby22/root/usr/local/share/gems/gems/passenger-5.* /opt/passenger
+ENV PASSENGER_START_TIMEOUT 90
 
 ### Rails
 ENV RAILS_ENV=production \
