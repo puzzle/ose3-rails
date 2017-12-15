@@ -1,15 +1,15 @@
 USER root
 
-# remove nodejs provided by centos ruby22 base image
-RUN yum remove -y nodejs010*
-RUN sed -e "s/nodejs010//g" -i /opt/app-root/etc/scl_enable 
+ADD /contrib/bin/install-nodejs $STI_SCRIPTS_PATH
 
-# Install node
-ADD /contrib/bin/install-nodejs.sh $STI_SCRIPTS_PATH
-RUN scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs.sh 
-
-# install yarn (install without dep check since nodejs is installed by tgz)
-RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo && \
+RUN \
+    # Remove nodejs provided by centos ruby22 base image
+    yum remove -y nodejs010* && \
+    sed -e "s/nodejs010//g" -i /opt/app-root/etc/scl_enable && \
+    # Install node
+    scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs && \
+    # Install yarn (install without dep check since nodejs is installed via tar)
+    wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo && \
     rpm -Uvh --nodeps $(repoquery --location yarn)
 
 ENV PATH="/opt/nodejs/bin:${PATH}"

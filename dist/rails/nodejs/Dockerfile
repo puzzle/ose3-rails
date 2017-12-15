@@ -21,17 +21,23 @@ RUN yum -y install epel-release && \
 RUN /bin/bash -c "gem install passenger --no-ri --no-rdoc && \
     export PATH=$PATH:/opt/rh/rh-ruby22/root/usr/local/bin && \
     passenger-install-apache2-module --auto --languages ruby && \
-    passenger-config validate-install " # bogus comment to invalidate cache
+    passenger-config validate-install "
 
 # CONFIGURATION
 
 ### Apache
 # Disable digest_module.
-RUN sed -i "s/LoadModule auth_digest_module/#LoadModule auth_digest_module/" /etc/httpd/conf.modules.d/00-base.conf
+RUN \
+  sed -i "s/LoadModule auth_digest_module/#LoadModule auth_digest_module/" /etc/httpd/conf.modules.d/00-base.conf && \
+  # TODO Why do we do this mkdir thing?
+  # I suspect it's because of the OpenShift PID hack for apache.
+  mkdir -p /opt/app-root/httpd/pid && \
+  # Target directories for app-provided httpd configuration
+  mkdir /etc/httpd/app_provided.d && \
+  chmod go+rwx /etc/httpd/app_provided.d
+
 ENV APACHE_RUN_USER 1001
 ENV APACHE_PID_FILE /opt/app-root/httpd.pid
-# TODO Why do we do this? I suspect it's because of the OpenShift PID hack for apache.
-RUN mkdir -p /opt/app-root/httpd/pid
 
 ### Passenger
 # Add a symlink to the installed passenger gem
@@ -66,16 +72,16 @@ ENV BUNDLE_WITHOUT=development:test
 
 USER root
 
-# remove nodejs provided by centos ruby22 base image
-RUN yum remove -y nodejs010*
-RUN sed -e "s/nodejs010//g" -i /opt/app-root/etc/scl_enable 
+ADD /contrib/bin/install-nodejs $STI_SCRIPTS_PATH
 
-# Install node
-ADD /contrib/bin/install-nodejs.sh $STI_SCRIPTS_PATH
-RUN scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs.sh 
-
-# install yarn (install without dep check since nodejs is installed by tgz)
-RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo && \
+RUN \
+    # Remove nodejs provided by centos ruby22 base image
+    yum remove -y nodejs010* && \
+    sed -e "s/nodejs010//g" -i /opt/app-root/etc/scl_enable && \
+    # Install node
+    scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs && \
+    # Install yarn (install without dep check since nodejs is installed via tar)
+    wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo && \
     rpm -Uvh --nodeps $(repoquery --location yarn)
 
 ENV PATH="/opt/nodejs/bin:${PATH}"

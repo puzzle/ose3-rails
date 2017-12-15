@@ -18,7 +18,7 @@ def version
 end
 
 def version_info
-  p "most recent nodejs version #{MAJOR_NODEJS_VERSION} is: #{version}" 
+  p "most recent nodejs version #{MAJOR_NODEJS_VERSION} is: #{version}"
 end
 
 def file_name
@@ -35,6 +35,7 @@ def install_nodejs
     system("mkdir -p /opt/nodejs")
     system("wget #{download_url}")
     system("tar xvfz #{file_name} -C /opt/nodejs --strip-components=1")
+    system("rm #{file_name}")
   end
 end
 

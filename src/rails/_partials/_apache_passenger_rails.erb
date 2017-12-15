@@ -14,17 +14,23 @@ RUN yum -y install epel-release && \
 RUN /bin/bash -c "gem install passenger --no-ri --no-rdoc && \
     export PATH=$PATH:/opt/rh/rh-ruby22/root/usr/local/bin && \
     passenger-install-apache2-module --auto --languages ruby && \
-    passenger-config validate-install " # bogus comment to invalidate cache
+    passenger-config validate-install "
 
 # CONFIGURATION
 
 ### Apache
 # Disable digest_module.
-RUN sed -i "s/LoadModule auth_digest_module/#LoadModule auth_digest_module/" /etc/httpd/conf.modules.d/00-base.conf
+RUN \
+  sed -i "s/LoadModule auth_digest_module/#LoadModule auth_digest_module/" /etc/httpd/conf.modules.d/00-base.conf && \
+  # TODO Why do we do this mkdir thing?
+  # I suspect it's because of the OpenShift PID hack for apache.
+  mkdir -p /opt/app-root/httpd/pid && \
+  # Target directories for app-provided httpd configuration
+  mkdir /etc/httpd/app_provided.d && \
+  chmod go+rwx /etc/httpd/app_provided.d
+
 ENV APACHE_RUN_USER 1001
 ENV APACHE_PID_FILE /opt/app-root/httpd.pid
-# TODO Why do we do this? I suspect it's because of the OpenShift PID hack for apache.
-RUN mkdir -p /opt/app-root/httpd/pid
 
 ### Passenger
 # Add a symlink to the installed passenger gem

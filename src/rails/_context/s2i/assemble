@@ -1,17 +1,17 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 dir=$(dirname $0)
 
 if [ -e /tmp/src/.s2i/pre_assemble ]; then
-  echo "Found pre_assemble script, executing it"
+  echo "Found pre_assemble script at .s2i/pre_assemble, executing it"
   /tmp/src/.s2i/pre_assemble
 fi
 
 $dir/assemble_rails
 
 if [ -e /opt/app-root/src/.s2i/post_assemble ]; then
-  echo "Found post_assemble script, executing it"
+  echo "Found post_assemble script at .s2i/post_assemble, executing it"
   /opt/app-root/src/.s2i/post_assemble
 fi

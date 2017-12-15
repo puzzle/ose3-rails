@@ -12,6 +12,18 @@ The following environment variables can be used to configure the container.
 
 ### LEAVE_RAILS_LOG_FILE_IN_PLACE
 
-If set to "1", this will leave rails' production log file in place. Everything that's written to the file will still be mirroed to stdout.
+If set to "1", this will leave rails' production log file in place. Everything that's written to the file will still be mirrored to stdout.
 This is useful if you archive log files instead of container stdout.
 
+## Apache configuration
+
+You can further configure apache for your needs by providing the file `.s2i/httpd-extra.conf` in your source.
+
+An example `httpd-extra.conf` which enables serving files via X-SendFile headers:
+
+```
+XSendFile On
+# Whitelist a single directory whose contents will be served by apache
+# if the app sends a corresponding X-SendFile header
+XSendFilePath /opt/app-root/src/store
+```
