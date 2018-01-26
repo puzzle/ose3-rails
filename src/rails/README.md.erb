@@ -23,6 +23,10 @@ Value of (PassengerMinInstances)[https://www.phusionpassenger.com/library/config
 
 Value of (PassengerMaxPoolSize)[https://www.phusionpassenger.com/library/config/apache/reference/#passengermaxpoolsize]. Defaults to 6.
 
+### PASSENGER_START_TIMEOUT
+
+Value of (PassengerStartTimeout)[https://www.phusionpassenger.com/library/config/apache/reference/#passengerstarttimeout]. Defaults to 90.
+
 ### LEAVE_RAILS_LOG_FILE_IN_PLACE
 
 If set to "1", this will leave rails' production log file in place. Everything that's written to the file will still be mirrored to stdout.
