@@ -15,6 +15,20 @@ The following environment variables can be used to configure the container.
 If set to "1", this will leave rails' production log file in place. Everything that's written to the file will still be mirrored to stdout.
 This is useful if you archive log files instead of container stdout.
 
+### PASSENGER_MIN_INSTANCES
+
+Value of (PassengerMinInstances)[https://www.phusionpassenger.com/library/config/apache/reference/#passengermininstances]. Defaults to 2.
+
+### PASSENGER_MAX_POOL_SIZE
+
+Value of (PassengerMaxPoolSize)[https://www.phusionpassenger.com/library/config/apache/reference/#passengermaxpoolsize]. Defaults to 6.
+
+### LEAVE_RAILS_LOG_FILE_IN_PLACE
+
+If set to "1", this will leave rails' production log file in place. Everything that's written to the file will still be mirrored to stdout.
+This is useful if you archive log files instead of container stdout.
+
+
 ## Apache configuration
 
 You can further configure apache for your needs by providing the file `.s2i/httpd-extra.conf` in your source.
