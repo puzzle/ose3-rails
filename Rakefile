@@ -1,6 +1,6 @@
 require_relative 'src/_build/builder.rb'
 
-
+desc "Rebuild Dockerfiles and supporting files"
 task :build do
   scrub_dist_dir
 
