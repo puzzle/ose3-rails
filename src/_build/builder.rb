@@ -1,6 +1,7 @@
 require 'erb'
 require 'tilt'
 require 'pp'
+require 'pathname'
 
 class Builder
   SOURCE_DIR = Pathname.new(__FILE__).parent.parent
