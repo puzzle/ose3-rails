@@ -102,8 +102,6 @@ RUN chmod ugo+x $STI_SCRIPTS_PATH/*
 
 USER 1001
 
-USER 1001
-
 # ENTRYPOINT
 
 CMD $STI_SCRIPTS_PATH/run-httpd.sh
