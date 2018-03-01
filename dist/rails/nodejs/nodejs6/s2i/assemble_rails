@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+# Restore build artifacts
+if [ "$(ls /tmp/artifacts/bundle 2>/dev/null)" ]; then
+    echo "Restoring bundle from artifacts..."
+    mv /tmp/artifacts/bundle .
+fi
+
+# Call original builder script
+$STI_SCRIPTS_PATH/assemble_base
+
+if [ -f /opt/app-root/src/.s2i/httpd-extra.conf ]; then
+    echo "Enabling http-extra.conf"
+    cp /opt/app-root/src/.s2i/httpd-extra.conf /etc/httpd/app_provided.d/
+fi
+
+# Remember build artifacts
+echo "Creating artifacts_out directory..."
+rm -rf /tmp/artifacts_out
+mkdir -p /tmp/artifacts_out
+
+echo "Linking bundle to artifacts..."
+ln -s /opt/app-root/src/bundle /tmp/artifacts_out/bundle

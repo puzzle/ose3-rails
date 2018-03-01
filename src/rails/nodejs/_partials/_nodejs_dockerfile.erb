@@ -1,0 +1,17 @@
+<%= partial('base_image') %>
+
+# ABOUT
+# A Rails/webpack frontend image to be used with S2I.
+#
+#   * nodejs, npm and yarn will get installed
+#   * the assets at frontend/dist are moved to public/
+
+<%= partial('apache_passenger_rails') %>
+
+<%= partial('install_node_yarn') %>
+
+<%= partial('add_s2i_scripts') %>
+
+USER 1001
+
+<%= partial('entrypoint') %>
