@@ -32,6 +32,15 @@ Value of (PassengerStartTimeout)[https://www.phusionpassenger.com/library/config
 If set to "1", this will leave rails' production log file in place. Everything that's written to the file will still be mirrored to stdout.
 This is useful if you archive log files instead of container stdout.
 
+### USE_SSL
+
+If this is set to "1", Apache is setup to offer TLS. The certificates and keys are expected in /opt/certificates/:
+
+```
+  SSLCertificateFile    /opt/certificates/app.cert
+  SSLCertificateKeyFile /opt/certificates/app.key
+  SSLCACertificateFile  /opt/certificates/ca.cert
+```
 
 ## Apache configuration
 

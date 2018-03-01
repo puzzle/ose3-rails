@@ -42,7 +42,6 @@ If this is set to "1", Apache is setup to offer TLS. The certificates and keys a
   SSLCACertificateFile  /opt/certificates/ca.cert
 ```
 
-
 ## Apache configuration
 
 You can further configure apache for your needs by providing the file `.s2i/httpd-extra.conf` in your source.
@@ -55,7 +54,6 @@ XSendFile On
 # if the app sends a corresponding X-SendFile header
 XSendFilePath /opt/app-root/src/store
 ```
-
 <%
 # vim:ft=eruby.markdown
 -%>
