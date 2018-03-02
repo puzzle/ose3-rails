@@ -1,11 +1,13 @@
 require 'erb'
 require 'tilt'
 require 'pp'
+require 'pathname'
 
 class Builder
   SOURCE_DIR = Pathname.new(__FILE__).parent.parent
 
   def run
+    puts "Building."
     templates.each do |t|
       src_path = Pathname.new(t)
       dest_path = Pathname.new(destination_file(t))
@@ -16,6 +18,14 @@ class Builder
         copy_context(src_path, dest_path.dirname)
       end
     end
+  end
+
+  def scrub_dist_dir(dist_dir)
+    raise "Where is the dist dir (not #{dist_dir} it seems)?" unless File.directory?(dist_dir)
+
+    puts "Scrubbing dist dir."
+    %x(rm -rf #{dist_dir})
+    %x(mkdir #{dist_dir})
   end
 
   private
