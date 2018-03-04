@@ -57,9 +57,9 @@ DES-CBC3-SHA
   Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 
   <%# Header always set X-Frame-Options DENY # we manage this in the application %>
-  SSLCertificateFile    /opt/certificates/app.cert
-  SSLCertificateKeyFile /opt/certificates/app.key
-  SSLCACertificateFile  /opt/certificates/ca.cert
+  SSLCertificateFile    /opt/certificates/app/tls.crt
+  SSLCertificateKeyFile /opt/certificates/app/tls.key
+  SSLCACertificateFile  /opt/certificates/ca/tls.crt
 </IfDefine>
 
 Undefine hasInternalEncryption

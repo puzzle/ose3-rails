@@ -37,9 +37,9 @@ This is useful if you archive log files instead of container stdout.
 If this is set to "1", Apache is setup to offer TLS. The certificates and keys are expected in /opt/certificates/:
 
 ```
-  SSLCertificateFile    /opt/certificates/app.cert
-  SSLCertificateKeyFile /opt/certificates/app.key
-  SSLCACertificateFile  /opt/certificates/ca.cert
+  SSLCertificateFile    /opt/certificates/app/tls.crt
+  SSLCertificateKeyFile /opt/certificates/app/tls.key
+  SSLCACertificateFile  /opt/certificates/ca/tls.crt
 ```
 
 ## Apache configuration
