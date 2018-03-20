@@ -1,6 +1,6 @@
-Define hasInternalEncryption %{ENV:USE_SSL}
+Define shallUseSsl %{ENV:USE_SSL}
 
-<IfDefine hasInternalEncryption>
+<IfDefine shallUseSsl>
   Listen 0.0.0.0:8443 https
 
   SSLPassPhraseDialog builtin
@@ -62,7 +62,7 @@ DES-CBC3-SHA
   SSLCACertificateFile  /opt/certificates/ca/tls.crt
 </IfDefine>
 
-Undefine hasInternalEncryption
+Undefine shallUseSsl
 
 <%
 # vim:ft=eruby.apache:et:ts=2:sw=2
