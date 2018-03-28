@@ -11,8 +11,8 @@ LABEL io.k8s.description="Base Image for Rails" \
 USER root
 ENV RUBY_MAJOR 2.4
 ENV RUBY_VERSION 2.4.2
-ENV BUNDLER_VERSION 1.16.1
-ENV RUBYGEMS_VERSION 2.7.6
+ENV BUNDLER_VERSION 1.15.0
+ENV RUBYGEMS_VERSION 2.6.12
 
 RUN \
      /bin/bash -c "yum -y remove rh-ruby24*" \
