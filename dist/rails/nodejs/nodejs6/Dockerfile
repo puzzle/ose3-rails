@@ -48,7 +48,8 @@ ENV APACHE_PID_FILE /opt/app-root/httpd.pid
 RUN ln -s /opt/rh/rh-ruby22/root/usr/local/share/gems/gems/passenger-5.* /opt/passenger
 ENV PASSENGER_START_TIMEOUT=90 \
   PASSENGER_MIN_INSTANCES=2 \
-  PASSENGER_MAX_POOL_SIZE=6
+  PASSENGER_MAX_POOL_SIZE=6 \
+  PASSENGER_PRE_START_PATH="/"
 
 ### Rails
 ENV RAILS_ENV=production \
@@ -99,8 +100,6 @@ RUN mv $STI_SCRIPTS_PATH/run $STI_SCRIPTS_PATH/run_base
 ADD /s2i/* $STI_SCRIPTS_PATH/
 
 RUN chmod ugo+x $STI_SCRIPTS_PATH/*
-
-USER 1001
 
 USER 1001
 

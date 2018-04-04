@@ -17,15 +17,21 @@ This is useful if you archive log files instead of container stdout.
 
 ### PASSENGER_MIN_INSTANCES
 
-Value of (PassengerMinInstances)[https://www.phusionpassenger.com/library/config/apache/reference/#passengermininstances]. Defaults to 2.
+Value of [PassengerMinInstances](https://www.phusionpassenger.com/library/config/apache/reference/#passengermininstances). Defaults to 2.
 
 ### PASSENGER_MAX_POOL_SIZE
 
-Value of (PassengerMaxPoolSize)[https://www.phusionpassenger.com/library/config/apache/reference/#passengermaxpoolsize]. Defaults to 6.
+Value of [PassengerMaxPoolSize](https://www.phusionpassenger.com/library/config/apache/reference/#passengermaxpoolsize). Defaults to 6.
 
 ### PASSENGER_START_TIMEOUT
 
-Value of (PassengerStartTimeout)[https://www.phusionpassenger.com/library/config/apache/reference/#passengerstarttimeout]. Defaults to 90.
+Value of [PassengerStartTimeout](https://www.phusionpassenger.com/library/config/apache/reference/#passengerstarttimeout). Defaults to 90.
+
+### PASSENGER_PRE_START_PATH
+
+The [PassengerPreStart](https://www.phusionpassenger.com/library/config/apache/reference/#passengerprestart) configuration is used to warm up your app after starting passenger by issuing a HEAD HTTP request.
+
+Use this to specify where to issue the request to. Defaults to '/'.
 
 ### LEAVE_RAILS_LOG_FILE_IN_PLACE
 
