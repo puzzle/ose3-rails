@@ -13,18 +13,25 @@ _dist_ contains ready-to-build dockerfiles.
 
 All these images are built on [Dockerhub](https://hub.docker.com/u/puzzle/).
 
-### About the tags
+### Versioning concept
 
-ruby22, ruby24: stable versions, built from the `stable` branch
+The ruby 2.2 images are organized in two **branches**, `master` and `stable`.
+`master` contains release candidates ready for integration testing.
+The `stable` branch contains the images used in production environments.
+
+Each Dockerfile is released on it's own DockerHub repository:
 
 * _dist/rails/pure/Dockerfile_ is built to [puzzle/ose3-rails:ruby22*](https://hub.docker.com/r/puzzle/ose3-rails)
 * _dist/rails/sphinx/Dockerfile_ (includes Sphinx 2.2) is built to [puzzle/ose3-rails-sphinx:ruby22*](https://hub.docker.com/r/puzzle/ose3-rails-sphinx/tags/)
 * _dist/rails/sphinx/transifex/Dockerfile_ (includes Sphinx transifex client 0.12) is built to [puzzle/ose3-rails-sphinx:ruby22*](https://hub.docker.com/r/puzzle/ose3-rails-sphinx/tags/)
-* _dist/rails/nodejs/Dockerfile_ (includes node) is built to [puzzle/ose3-rails-nodejs:ruby22*](https://hub.docker.com/r/puzzle/ose3-rails-nodejs/tags/)
+* _dist/rails/nodejs/Dockerfile_ (includes node 8.9) is built to [puzzle/ose3-rails-nodejs:ruby22,puzzle/ose3-rails-nodejs:ruby22-nodejs-8.9](https://hub.docker.com/r/puzzle/ose3-rails-nodejs/tags/)
+* _dist/rails/nodejs/nodejs6/Dockerfile_ (includes node 6) is built to [puzzle/ose3-rails-nodejs:ruby22-nodejs-6](https://hub.docker.com/r/puzzle/ose3-rails-nodejs/tags/)
 
-latest, devel: development versions, don't use in production
+There are more **docker tags** in place so you can pin your image to the versions of the software contained inside. Have a look at DockerHub.
 
-## Using
+Tags ending in `-dev` are the builds from the `master` branch used for integration tests.
+
+## Building
 
 ### Locally
 
@@ -70,8 +77,14 @@ Use ruby 2.3.1 (although everything > 2 should work), rvm will do so for you aut
         └── nodejs (Another image)
             ├── _context (nodejs specific build context contents)
 
-When building `nodejs`
+An example: When building `nodejs`
 
 * `dist/rails/nodejs/Dockerfile` is generated from `src/rails/nodejs/Dockerfile.erb`
   The template has access to all partials in `nodejs/_partials` and all parent folders (`rails/_partials` in this case). A partial `_foo.erb` is rendered by doing `<%= partial("foo") %>`. `nodejs/_partials/_foo.erb` will take precedence over `rails/_partials/_foo.erb`.
 * All necessary files for the docker build context (store them in the `_context` folders) are copied to `dist/rails/nodejs/`. A file `nodejs/foofile` will override `rails/foofile`.
+
+## Testing, Releasing
+
+For now, only Puzzle members may release new versions of the images.
+
+Refer to the [internal documentation at puzzle](https://gitlab.puzzle.ch/pitc_ruby/ose3-rails-configmanagement/blob/master/doc/operations/README.md) to learn how to properly test the image before releasing it on DockerHub.
