@@ -16,7 +16,6 @@ class Builder
 
       if dockerfile?(dest_path)
         copy_context(src_path, dest_path.dirname)
-        render_context_templates(dest_path.dirname)
       end
     end
   end
@@ -31,12 +30,12 @@ class Builder
 
   private
 
-  def render(in_path, out_path, with_partials = true)
+  def render(in_path, out_path)
     puts [in_path, out_path].map{ |p| relative(p) }.join(' → ')
 
     FileUtils.mkdir_p(out_path.dirname)
 
-    content = Renderer.new(in_path, with_partials).render
+    content = Renderer.new(in_path).render
     File.write(out_path, content)
   end
 
@@ -61,18 +60,10 @@ class Builder
   end
 
   def templates
-    # All erb files without partials and _context-files
-    Dir.glob("#{SOURCE_DIR}/**/*.erb")
-      .map { |path| Pathname.new(path) }
-      .reject { |path| path.basename.to_s[0] == '_' }
-      .reject { |path| path.to_s =~ /_context/ }
-  end
-
-  def render_context_templates(dest_path)
-    Dir.glob("#{dest_path}/**/*.erb")
-      .map { |path| Pathname.new(path) }
-      .each { |path| render(path, path.sub(/\.erb$/, ''), false) }
-      .each { |path| path.unlink }
+    # All erb files without partials.
+    Dir.glob("#{SOURCE_DIR}/**/*.erb").map do |path|
+      Pathname.new(path)
+    end.reject{ |path| path.basename.to_s[0] == '_' }
   end
 
   # Where to render a template to.
@@ -82,13 +73,12 @@ class Builder
 
   # Renders an erb file. The file receives a PartialHelper p to render partials.
   class Renderer
-    def initialize(path, with_partials = true)
+    def initialize(path)
       @path = path
-      @partial_helper = with_partials ?  PartialHelper.new(@path) : nil
     end
 
     def render
-      Tilt.new(@path).render(@partial_helper)
+      Tilt.new(@path).render(PartialHelper.new(@path))
     end
   end
 

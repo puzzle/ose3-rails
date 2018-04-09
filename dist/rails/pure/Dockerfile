@@ -1,5 +1,4 @@
 FROM centos/ruby-22-centos7
-
 LABEL io.k8s.description="Base Image for Rails" \
       io.k8s.display-name="pitc-rails-bi" \
       io.openshift.expose-services="8080:http" \
@@ -81,7 +80,6 @@ RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
 # See https://github.com/sclorg/rhscl-dockerfiles/issues/26
 ENV BUNDLE_WITHOUT=development:test
 
-
 # Add S2I scripts.
 USER root
 
@@ -90,7 +88,6 @@ RUN mv $STI_SCRIPTS_PATH/run $STI_SCRIPTS_PATH/run_base
 ADD /s2i/* $STI_SCRIPTS_PATH/
 
 RUN chmod ugo+x $STI_SCRIPTS_PATH/*
-
 
 USER 1001
 
