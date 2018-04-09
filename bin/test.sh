@@ -14,17 +14,21 @@ if [[ $# -ne 1 ]]; then
     exit 1
 fi
 
+set -e
+
 docker_dir=$1
-root=$(dirname $0)/..
+cd $(dirname $0)/..
+root=$(pwd)
 
 image_name=puzzle/ose3-rails-$(basename $docker_dir)
+echo
 echo "# Building $image_name from files in $docker_dir"
-echo ""
+echo
 
 cd $root/$docker_dir
 docker build . -t $image_name | sed 's/^/   /'
-echo
 
+echo
 echo "# Building test app"
 
 build=$image_name-test-app
@@ -39,7 +43,11 @@ container=$(docker run -d -p 18080:8080 $build)
 sleep 1
 
 echo "# Checking test app"
+
+set +e
 output=$(curl -o- http://localhost:18080)
+set -e
+
 if [[ $output -ne "works" ]]; then
     echo
     echo "RESULT: OK"
@@ -53,6 +61,7 @@ else
     echo "RESULT: BROKEN"
 fi
 
+echo
 echo "# Shutting down test app"
 
 docker kill $container
