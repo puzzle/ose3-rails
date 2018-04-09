@@ -1,4 +1,5 @@
 FROM centos/ruby-22-centos7
+
 LABEL io.k8s.description="Base Image for Rails" \
       io.k8s.display-name="pitc-rails-bi" \
       io.openshift.expose-services="8080:http" \
@@ -12,10 +13,10 @@ USER root
 # SLOW STUFF
 # Slow operations, kept at top of the Dockerfile so they're cached for most changes.
 
-# Install Apache httpd24 and mod_xsendfile.
+# Install Apache httpd24, mod_xsendfile, mod_ssl and build deps
 RUN yum -y install epel-release && \
     yum update -y && \
-    INSTALL_PKGS="httpd httpd-devel mod_xsendfile apr-devel apr-util-devel sqlite3 ImageMagick-devel" && \
+    INSTALL_PKGS="httpd httpd-devel mod_xsendfile mod_ssl apr-devel apr-util-devel sqlite3 ImageMagick-devel" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     yum clean all -y
 
@@ -39,7 +40,9 @@ RUN \
   mkdir -p /opt/app-root/httpd/pid && \
   # Target directories for app-provided httpd configuration
   mkdir /etc/httpd/app_provided.d && \
-  chmod go+rwx /etc/httpd/app_provided.d
+  chmod go+rwx /etc/httpd/app_provided.d && \
+  # remove default config that we replace
+  rm /etc/httpd/conf.d/ssl.conf
 
 ENV APACHE_RUN_USER 1001
 ENV APACHE_PID_FILE /opt/app-root/httpd.pid
@@ -78,6 +81,7 @@ RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
 # See https://github.com/sclorg/rhscl-dockerfiles/issues/26
 ENV BUNDLE_WITHOUT=development:test
 
+
 # Add S2I scripts.
 USER root
 
@@ -86,6 +90,7 @@ RUN mv $STI_SCRIPTS_PATH/run $STI_SCRIPTS_PATH/run_base
 ADD /s2i/* $STI_SCRIPTS_PATH/
 
 RUN chmod ugo+x $STI_SCRIPTS_PATH/*
+
 
 USER 1001
 
