@@ -38,35 +38,48 @@ s2i build -c . $image_name $build 2>&1 \
     --incremental=true \
     | sed 's/^/   /'
 
-echo "# Starting test app, waiting a second"
+function test_app() {
+    additional_dockerargs=$1
+    url=$2
 
-container=$(docker run -d -p 18080:8080 $build)
-# To test USE_SSL behaviour, use this instead:
-# container=$(docker run -d --env "USE_SSL=1" -p 18080:8080 $build)
+    echo "# Starting test app, waiting a second"
 
-sleep 1
+    container=$(
+        docker run -d \
+               -p 18080:8080 \
+               -p 18443:8443 \
+               $additional_docker_args $build)
 
-echo "# Checking test app"
+    sleep 1
 
-set +e
-echo
-output=$(curl -o- http://localhost:18080)
-set -e
+    echo "# Checking test app"
 
-if [[ $output == "works" ]]; then
+    set +e
     echo
-    echo "RESULT: OK"
-else
-    echo
-    echo "RESULT: BROKEN"
-    echo
-    echo "-- Docker logs:"
-    docker logs $container 2>&1 | sed 's/^/   /'
-    echo
-    echo "RESULT: BROKEN"
-fi
+    output=$(curl --insecure -o- $url)
+    set -e
 
-echo
-echo "# Shutting down test app"
+    if [[ $output == "works" ]]; then
+        echo
+        echo "RESULT: OK"
+    else
+        echo
+        echo "RESULT: BROKEN"
+        echo
+        echo "-- Docker logs:"
+        docker logs $container 2>&1 | sed 's/^/   /'
+        echo
+        echo "RESULT: BROKEN"
+    fi
 
-docker kill $container
+    echo
+    echo "# Shutting down test app"
+
+    docker kill $container
+}
+
+echo "# HTTP"
+test_app "" "http://localhost:18080"
+
+echo "# HTTPS"
+test_app '--env USE_SSL=1' "https://localhost:18443"
