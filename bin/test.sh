@@ -50,7 +50,7 @@ echo
 output=$(curl -o- http://localhost:18080)
 set -e
 
-if [[ $output -eq "works" ]]; then
+if [[ $output == "works" ]]; then
     echo
     echo "RESULT: OK"
 else
