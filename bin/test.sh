@@ -37,10 +37,13 @@ cd $root/test/test_app
 s2i build -c . $image_name $build 2>&1 \
     --incremental=true \
     | sed 's/^/   /'
-echo
 
 echo "# Starting test app, waiting a second"
+
 container=$(docker run -d -p 18080:8080 $build)
+# To test USE_SSL behaviour, use this instead:
+# container=$(docker run -d --env "USE_SSL=1" -p 18080:8080 $build)
+
 sleep 1
 
 echo "# Checking test app"

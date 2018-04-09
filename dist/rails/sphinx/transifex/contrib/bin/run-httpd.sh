@@ -32,4 +32,9 @@ fi
 # Cannot get user database entry for user UID 1000190000; it looks like your system's user database is broken, please fix it.
 export LD_PRELOAD=/usr/local/lib/libmapuid.so
 
+if [[ $USE_SSL == "1" ]]; then
+    echo "USE_SSL set to 1, activating use_ssl.conf"
+    mv /etc/httpd/opt-in/use_ssl.conf /etc/httpd/conf.d/
+fi
+
 exec /usr/sbin/apachectl -DFOREGROUND 2>&1 | sed 's#^#apache stdout/stderr:#'
