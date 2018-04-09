@@ -10,10 +10,10 @@ USER root
 # SLOW STUFF
 # Slow operations, kept at top of the Dockerfile so they're cached for most changes.
 
-# Install Apache httpd24 and mod_xsendfile.
+# Install Apache httpd24, mod_xsendfile, mod_ssl and build deps
 RUN yum -y install epel-release && \
     yum update -y && \
-    INSTALL_PKGS="httpd httpd-devel mod_xsendfile apr-devel apr-util-devel sqlite3 ImageMagick-devel" && \
+    INSTALL_PKGS="httpd httpd-devel mod_xsendfile mod_ssl apr-devel apr-util-devel sqlite3 ImageMagick-devel" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     yum clean all -y
 
@@ -37,7 +37,9 @@ RUN \
   mkdir -p /opt/app-root/httpd/pid && \
   # Target directories for app-provided httpd configuration
   mkdir /etc/httpd/app_provided.d && \
-  chmod go+rwx /etc/httpd/app_provided.d
+  chmod go+rwx /etc/httpd/app_provided.d && \
+  # remove default config that we replace
+  rm /etc/httpd/conf.d/ssl.conf
 
 ENV APACHE_RUN_USER 1001
 ENV APACHE_PID_FILE /opt/app-root/httpd.pid

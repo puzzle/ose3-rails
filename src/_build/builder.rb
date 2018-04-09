@@ -29,6 +29,7 @@ class Builder
   end
 
   private
+
   def render(in_path, out_path)
     puts [in_path, out_path].map{ |p| relative(p) }.join(' → ')
 

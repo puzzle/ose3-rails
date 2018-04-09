@@ -32,4 +32,12 @@ fi
 # Cannot get user database entry for user UID 1000190000; it looks like your system's user database is broken, please fix it.
 export LD_PRELOAD=/usr/local/lib/libmapuid.so
 
+if [[ $USE_SSL == "1" ]]; then
+    echo "Listening for HTTPS traffic on port 8443"
+    mv /etc/httpd/features/https.conf /etc/httpd/conf.d/1_https.conf
+else
+    echo "Listening for HTTP traffic on port 8080"
+    mv /etc/httpd/features/http.conf /etc/httpd/conf.d/1_http.conf
+fi
+
 exec /usr/sbin/apachectl -DFOREGROUND 2>&1 | sed 's#^#apache stdout/stderr:#'

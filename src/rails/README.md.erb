@@ -38,6 +38,17 @@ Use this to specify where to issue the request to. Defaults to '/'.
 If set to "1", this will leave rails' production log file in place. Everything that's written to the file will still be mirrored to stdout.
 This is useful if you archive log files instead of container stdout.
 
+### USE_SSL
+
+If this is set to "1", the server will no longer listen for HTTP traffic on port 8080, but expect HTTPS traffic on port 8443 instead.
+
+The certificates and keys are expected in /opt/certificates/:
+
+```
+  SSLCertificateFile    /opt/certificates/app/tls.crt
+  SSLCertificateKeyFile /opt/certificates/app/tls.key
+  SSLCACertificateFile  /opt/certificates/ca/tls.crt
+```
 
 ## Apache configuration
 
