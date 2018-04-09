@@ -34,8 +34,9 @@ echo "# Building test app"
 build=$image_name-test-app
 
 cd $root/test/test_app
-echo
-s2i build -c . $image_name $build | sed 's/^/   /'
+s2i build -c . $image_name $build 2>&1 \
+    --incremental=true \
+    | sed 's/^/   /'
 echo
 
 echo "# Starting test app, waiting a second"
@@ -45,10 +46,11 @@ sleep 1
 echo "# Checking test app"
 
 set +e
+echo
 output=$(curl -o- http://localhost:18080)
 set -e
 
-if [[ $output -ne "works" ]]; then
+if [[ $output -eq "works" ]]; then
     echo
     echo "RESULT: OK"
 else
@@ -65,4 +67,3 @@ echo
 echo "# Shutting down test app"
 
 docker kill $container
-docker rm $build

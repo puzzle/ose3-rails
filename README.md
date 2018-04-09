@@ -83,8 +83,12 @@ An example: When building `nodejs`
   The template has access to all partials in `nodejs/_partials` and all parent folders (`rails/_partials` in this case). A partial `_foo.erb` is rendered by doing `<%= partial("foo") %>`. `nodejs/_partials/_foo.erb` will take precedence over `rails/_partials/_foo.erb`.
 * All necessary files for the docker build context (store them in the `_context` folders) are copied to `dist/rails/nodejs/`. A file `nodejs/foofile` will override `rails/foofile`.
 
-## Testing, Releasing
+## Testing
+
+Check out `bin/test.sh` for a simple integration test.
+
+## Releasing
 
 For now, only Puzzle members may release new versions of the images.
 
-Refer to the [internal documentation at puzzle](https://gitlab.puzzle.ch/pitc_ruby/ose3-rails-configmanagement/blob/master/doc/operations/README.md) to learn how to properly test the image before releasing it on DockerHub.
+Refer to the [internal documentation at puzzle](https://gitlab.puzzle.ch/pitc_ruby/ose3-rails-configmanagement/blob/master/doc/operations/README.md) to learn how to test the image against a fow OpenShift projects before releasing it on DockerHub.
