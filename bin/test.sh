@@ -39,7 +39,7 @@ s2i build -c . $image_name $build 2>&1 \
     | sed 's/^/   /'
 
 function test_app() {
-    additional_dockerargs=$1
+    additional_docker_args=$1
     url=$2
 
     echo "# Starting test app, waiting a second"
@@ -78,8 +78,16 @@ function test_app() {
     docker kill $container
 }
 
+function create_ssl_certificates () {
+    openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout server.key -out server.crt
+}
+
+cd $root
+
 echo "# HTTP"
 test_app "" "http://localhost:18080"
 
 echo "# HTTPS"
-test_app '--env USE_SSL=1' "https://localhost:18443"
+
+bin/create_certificates.sh
+test_app "--env USE_SSL=1 -v $root/test/certificates:/opt/certificates" "https://localhost:18443"

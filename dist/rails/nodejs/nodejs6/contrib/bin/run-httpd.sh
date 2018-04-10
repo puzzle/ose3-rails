@@ -33,8 +33,11 @@ fi
 export LD_PRELOAD=/usr/local/lib/libmapuid.so
 
 if [[ $USE_SSL == "1" ]]; then
-    echo "USE_SSL set to 1, activating use_ssl.conf"
-    mv /etc/httpd/opt-in/use_ssl.conf /etc/httpd/conf.d/
+    echo "Listening for HTTPS traffic on port 8443"
+    mv /etc/httpd/features/https.conf /etc/httpd/conf.d/1_https.conf
+else
+    echo "Listening for HTTP traffic on port 8080"
+    mv /etc/httpd/features/http.conf /etc/httpd/conf.d/1_http.conf
 fi
 
 exec /usr/sbin/apachectl -DFOREGROUND 2>&1 | sed 's#^#apache stdout/stderr:#'
