@@ -69,14 +69,16 @@ ADD /contrib/usr/local/lib /usr/local/lib
 
 # PERMISSIONS
 
-# TODO Why do we do this? Check with the fix-permissions call in $STI_SCRIPTS_PATH/assemble.
-RUN chgrp -R 0 ./ && \
+RUN \
+    # Allow moving feature config files to conf.d in run-httpd.sh
+    chmod go+rwx /etc/httpd/features /etc/httpd/conf.d && \
+    # TODO Why do we do this?
+    # Check with the fix-permissions call in $STI_SCRIPTS_PATH/assemble.
+    chgrp -R 0 ./ && \
     chmod -R g+rw ./ && \
     find ./ -type d -exec chmod g+x {} + && \
-    chown -R 1001:0 ./
-
-# TODO Why do we do this? Check with the fix-permissions call in $STI_SCRIPTS_PATH/assemble.
-RUN chmod -R a+rwX /opt/app-root/httpd/pid && \
+    chown -R 1001:0 ./  && \
+    chmod -R a+rwX /opt/app-root/httpd/pid && \
     chmod +x $STI_SCRIPTS_PATH/run-httpd.sh
 
 # Workaround for base image: Do not install gems from development and test environments
