@@ -1,0 +1,51 @@
+kind: ImageStream
+apiVersion: v1
+metadata:
+  name: builds
+
+---
+kind: BuildConfig
+apiVersion: v1
+metadata:
+  name: ose3-rails
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/puzzle/ose3-rails
+      ref: master
+    contextDir: "test/test_app"
+  strategy:
+    type: "Source"
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: base-image:latest
+      forcePull: true
+      incremental: true
+  output:
+    to:
+      kind: ImageStreamTag
+      name: builds:latest
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 100m
+      memory: 300Mi
+
+---
+kind: ImageStream
+apiVersion: v1
+metadata:
+  name: base-image
+spec:
+  tags:
+  - from:
+      kind: DockerImage
+      name: puzzle/ose3-rails
+    name: latest
+    importPolicy:
+      # OpenShift will regularly check for image updates.
+      scheduled: true

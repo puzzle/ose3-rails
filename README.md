@@ -92,3 +92,7 @@ Check out `bin/test.sh` for a simple integration test.
 For now, only Puzzle members may release new versions of the images.
 
 Refer to the [internal documentation at puzzle](https://gitlab.puzzle.ch/pitc_ruby/ose3-rails-configmanagement/blob/master/doc/operations/README.md) to learn how to test the image against a fow OpenShift projects before releasing it on DockerHub.
+
+# Further reading
+
+* There are various [development tasks](doc/development_tasks.md).
