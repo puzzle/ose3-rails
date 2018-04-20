@@ -1,5 +1,8 @@
 #!/bin/bash
 
+pwd
+ls -altr
+
 git status
 
 env
