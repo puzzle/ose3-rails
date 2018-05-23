@@ -4,8 +4,8 @@ ADD /contrib/bin/install-nodejs $STI_SCRIPTS_PATH
 
 RUN \
     # Remove nodejs provided by centos ruby22 base image
-    yum remove -y nodejs010* && \
-    sed -e "s/nodejs010//g" -i /opt/app-root/etc/scl_enable && \
+    yum remove -y rh-nodejs* && \
+    sed -e "s/ \$NODEJS_SCL//g" -i /opt/app-root/etc/scl_enable && \
     # Install node
     scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs && \
     # Install yarn (install without dep check since nodejs is installed via tar)

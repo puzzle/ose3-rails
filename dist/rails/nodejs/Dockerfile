@@ -1,4 +1,5 @@
 FROM centos/ruby-22-centos7
+
 # ABOUT
 # A Rails/webpack frontend image to be used with S2I.
 #
@@ -80,14 +81,15 @@ RUN \
 # See https://github.com/sclorg/rhscl-dockerfiles/issues/26
 ENV BUNDLE_WITHOUT=development:test
 
+
 USER root
 
 ADD /contrib/bin/install-nodejs $STI_SCRIPTS_PATH
 
 RUN \
     # Remove nodejs provided by centos ruby22 base image
-    yum remove -y nodejs010* && \
-    sed -e "s/nodejs010//g" -i /opt/app-root/etc/scl_enable && \
+    yum remove -y rh-nodejs* && \
+    sed -e "s/ \$NODEJS_SCL//g" -i /opt/app-root/etc/scl_enable && \
     # Install node
     scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs && \
     # Install yarn (install without dep check since nodejs is installed via tar)
@@ -95,6 +97,7 @@ RUN \
     rpm -Uvh --nodeps $(repoquery --location yarn)
 
 ENV PATH="/opt/nodejs/bin:${PATH}"
+
 
 # Add S2I scripts.
 USER root
@@ -105,8 +108,10 @@ ADD /s2i/* $STI_SCRIPTS_PATH/
 
 RUN chmod ugo+x $STI_SCRIPTS_PATH/*
 
+
 USER 1001
 
 # ENTRYPOINT
 
 CMD $STI_SCRIPTS_PATH/run-httpd.sh
+
