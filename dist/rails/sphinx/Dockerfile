@@ -1,5 +1,7 @@
 FROM centos/ruby-22-centos7
-
+      
+      
+      
 
 # ABOUT
 # A Rails image to be used with OpenShift S2I.
@@ -8,7 +10,6 @@ USER root
 
 ADD /contrib/bin/install-sphinx.sh $STI_SCRIPTS_PATH
 RUN scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-sphinx.sh 
-
 USER root
 
 # SLOW STUFF
@@ -84,7 +85,6 @@ RUN \
 # See https://github.com/sclorg/rhscl-dockerfiles/issues/26
 ENV BUNDLE_WITHOUT=development:test
 
-
 # Add S2I scripts.
 USER root
 
@@ -93,7 +93,6 @@ RUN mv $STI_SCRIPTS_PATH/run $STI_SCRIPTS_PATH/run_base
 ADD /s2i/* $STI_SCRIPTS_PATH/
 
 RUN chmod ugo+x $STI_SCRIPTS_PATH/*
-
 
 USER 1001
 

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+severity="$1"
+
+# -r enables capture groups
+# -u means unbuffered, prevents logs from getting cut
+#    or shown with delay
+sed -ur '
+    # Do not change JSON
+    /^\{/{ bend }
+
+    # Remove passenger prefix in front of JSON logs from app
+    /^App [[:digit:]]+ [[:alpha:]]+: \{/ {
+        s/App.*: //;
+        bend
+    }
+
+    s/[^\{]"/\\"/g # Escape quotes on non-JSON
+
+    # Wrap passenger output in JSON
+    /^App / {
+        s/App ([[:digit:]]+) ([[:alpha:]]+): (.*)/{ "component": "passenger", "severity": "'$severity'", "message": "\3" }/;
+        bend
+    }
+
+    # Wrap other apache output in JSON
+    s/(.*)/{ "component": "apache", "severity": "'$severity'", "message": "\1" }/
+
+    :end # End label (jumped to with 'bend')
+'

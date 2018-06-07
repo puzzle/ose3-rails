@@ -1,5 +1,4 @@
 FROM centos/ruby-22-centos7
-
 # ABOUT
 # A Rails/webpack frontend image to be used with S2I.
 #
@@ -81,7 +80,6 @@ RUN \
 # See https://github.com/sclorg/rhscl-dockerfiles/issues/26
 ENV BUNDLE_WITHOUT=development:test
 
-
 USER root
 
 ADD /contrib/bin/install-nodejs $STI_SCRIPTS_PATH
@@ -98,7 +96,6 @@ RUN \
 
 ENV PATH="/opt/nodejs/bin:${PATH}"
 
-
 # Add S2I scripts.
 USER root
 
@@ -108,10 +105,8 @@ ADD /s2i/* $STI_SCRIPTS_PATH/
 
 RUN chmod ugo+x $STI_SCRIPTS_PATH/*
 
-
 USER 1001
 
 # ENTRYPOINT
 
 CMD $STI_SCRIPTS_PATH/run-httpd.sh
-
