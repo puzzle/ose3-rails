@@ -19,7 +19,7 @@ sed -ur '
         bend
     }
 
-    s/[^\{]"/\\"/g # Escape quotes on non-JSON.
+    s/"/\\"/g # Escape quotes.
 
     # Wrap passenger output in JSON.
     /^App / {
