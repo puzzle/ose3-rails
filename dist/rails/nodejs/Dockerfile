@@ -81,6 +81,19 @@ RUN cd /opt && \
     wget https://yarnpkg.com/latest.tar.gz && \
     tar zvxf latest.tar.gz
 
+RUN \
+ # Remove nodejs provided by centos ruby22 base image
+    yum remove -y rh-nodejs* && \
+    sed -e "s/ \$NODEJS_SCL//g" -i /opt/app-root/etc/scl_enable && \
+    # Install node
+    scl enable rh-ruby22 $STI_SCRIPTS_PATH/install-nodejs && \
+    # Install yarn (install without dep check since nodejs is installed via tar)
+    wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo && \
+    rpm -Uvh --nodeps $(repoquery --location yarn)
+
+ENV PATH="/opt/nodejs/bin:${PATH}"
+
+
 # Add S2I scripts.
 USER root
 
@@ -97,3 +110,6 @@ USER 1001
 # ENTRYPOINT
 
 CMD $STI_SCRIPTS_PATH/run-httpd.sh
+
+
+
