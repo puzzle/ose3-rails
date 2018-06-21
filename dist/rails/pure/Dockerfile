@@ -9,9 +9,9 @@ LABEL io.k8s.description="Base Image for Rails" \
 # A Rails image to be used with OpenShift S2I.
 
 USER root
-ENV RUBY_MAJOR 2.4
-ENV RUBY_VERSION 2.4.4
-ENV BUNDLER_VERSION 1.15.0
+ENV RUBY_MAJOR 2.5
+ENV RUBY_VERSION 2.5.0
+ENV BUNDLER_VERSION 1.16.1
 ENV RUBYGEMS_VERSION 2.6.12
 
 RUN \
