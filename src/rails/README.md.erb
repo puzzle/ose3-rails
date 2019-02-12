@@ -62,3 +62,8 @@ XSendFile On
 # if the app sends a corresponding X-SendFile header
 XSendFilePath /opt/app-root/src/store
 ```
+
+### RAW_APACHE_LOGS
+
+Set to `1` to stop reformatting apache logs into structured logs (JSON) - saves CPU time
+if your application has a lot of requests.

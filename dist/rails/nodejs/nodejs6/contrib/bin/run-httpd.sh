@@ -55,9 +55,16 @@ fi
 
 jsonize="$(dirname $0)/jsonize"
 
-exec \
-    # Disable buffering so we see logs instantly
-    stdbuf -oL -eL \
+if [[ "$RAW_APACHE_LOGS" == "1" ]]; then
+    exec \
+        # Disable buffering so we see logs instantly
+        stdbuf -oL -eL \
+        /usr/sbin/apachectl -DFOREGROUND
+else
+    exec \
+        # Disable buffering so we see logs instantly
+        stdbuf -oL -eL \
         /usr/sbin/apachectl -DFOREGROUND \
-            1> >($jsonize "info") \
-            2> >($jsonize "error")
+        1> >($jsonize "info") \
+        2> >($jsonize "error")
+fi
