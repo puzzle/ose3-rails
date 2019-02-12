@@ -9,7 +9,7 @@ if [ -e /tmp/src/.s2i/pre_assemble ]; then
   /tmp/src/.s2i/pre_assemble
 fi
 
-scl enable rh-mysql57 $dir/assemble_rails
+$dir/assemble_rails
 
 if [ -e /opt/app-root/src/.s2i/post_assemble ]; then
   echo "Found post_assemble script at .s2i/post_assemble, executing it"

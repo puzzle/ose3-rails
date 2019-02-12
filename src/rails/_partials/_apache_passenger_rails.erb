@@ -10,10 +10,6 @@ RUN yum -y install epel-release && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     yum clean all -y
 
-# upgrade mysql libs
-RUN yum -y remove mariadb-devel mariadb-libs && \
-    yum -y install rh-ruby22-ruby-devel rh-mysql57 rh-mysql57-mysql-devel rh-mysql57-mysql-common rh-mysql57-mysql rh-ruby22-rubygems-devel
-
 # Install passenger.
 #
 # We pin passenger to a minor version because the automatic upgrade from
